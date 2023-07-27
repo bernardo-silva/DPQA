@@ -21,9 +21,9 @@ tmp = DPQA(
     dir=args.dir if args.dir else './results/smt/',
     print_detail=args.print_detail
 )
-tmp.setArchitecture([16, 16, 16, 16])
+tmp.set_architecture([16, 16, 16, 16])
 if str(args.size) in graphs.keys() and args.id in range(10):
-    tmp.setProgram(graphs[str(args.size)][args.id])
+    tmp.set_program(graphs[str(args.size)][args.id])
 else:
     raise ValueError(f'No such graph {args.size}_{args.id}.')
 tmp.setPureGraph()
