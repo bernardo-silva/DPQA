@@ -1,8 +1,8 @@
-from typing import Sequence
+from typing import Sequence, Tuple
 from .solve import DPQA
 
 def dpqa_solve(circuit: Sequence[Sequence[int]],
-               architecture: Sequence[int] = [16, 16, 16, 16],
+               architecture: Tuple[int, int, int, int] = [16, 16, 16, 16],
                save_results: bool = False,
                all_aod: bool = False,
                filename: str = "",
@@ -19,11 +19,11 @@ def dpqa_solve(circuit: Sequence[Sequence[int]],
     dpqa.set_architecture(architecture)
     dpqa.set_program(circuit)
 
-    dpqa.setPureGraph()
-    dpqa.setCommutation()
+    dpqa.set_pure_graph()
+    dpqa.set_commutation()
 
     if all_aod:
-        dpqa.setAOD()
+        dpqa.set_all_AOD()
     
     dpqa.hybrid_strategy()
     dpqa.solve(save_results=save_results)
