@@ -47,7 +47,7 @@ def collision_extract(
 
 
 def max_degree(list_gate_qubits: Sequence[Sequence[int]],
-              count_program_qubit: int) -> int:
+               count_program_qubit: int) -> int:
     """calculate the max number of gates on a qubit.
 
     Args:
@@ -153,8 +153,8 @@ class DPQA:
         self.n_x, self.n_y, self.n_c, self.n_r = bounds
 
     def set_program(self, program: Sequence[Sequence[int]], nqubit: int = 0):
-        # assume program is a iterable of pairs of qubits in 2Q gate
-        # assume that the qubit indices used are consecutively 0, 1, ...
+        """ assume program is a iterable of pairs of qubits in 2Q gate
+         assume that the qubit indices used are consecutively 0, 1, ..."""
         self.num_gates = len(program)
         self.g_q = tuple((min(pair), max(pair)) for pair in program)
         self.g_s = tuple('CRZ' for _ in range(self.num_gates))
@@ -419,9 +419,8 @@ class DPQA:
     ):
         """ Two atoms cannot be in the same AOD site or SLM site. Removed pure_graph condition."""
 
-
         # if self.pure_graph:
-            # bound number of atoms in each site, needed if not double counting
+        # bound number of atoms in each site, needed if not double counting
         for q0 in range(self.num_qubits):
             for q1 in range(q0+1, self.num_qubits):
                 for s in range(num_stage):
