@@ -1,8 +1,9 @@
 from typing import Sequence
-from solve import DPQA
+from .solve import DPQA
 
 def dpqa_solve(circuit: Sequence[Sequence[int]],
                architecture: Sequence[int] = [16, 16, 16, 16],
+               save_results: bool = False,
                all_aod: bool = False,
                filename: str = "",
                directory: str = './results/smt/',
@@ -25,6 +26,6 @@ def dpqa_solve(circuit: Sequence[Sequence[int]],
         dpqa.setAOD()
     
     dpqa.hybrid_strategy()
-    dpqa.solve()
+    dpqa.solve(save_results=save_results)
 
     return dpqa.result_json
