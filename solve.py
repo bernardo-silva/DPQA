@@ -505,35 +505,38 @@ class DPQA:
             c: Sequence[Sequence[Any]],
             r: Sequence[Sequence[Any]],
     ):
-        if len(self.result_json['layers']) > 0:
-            vars = self.result_json['layers'][-1]['qubits']
-            for q in range(self.num_qubits):
-                # load location info
-                if 'x' in vars[q]:
-                    (self.dpqa).add(x[q][0] == vars[q]['x'])
-                if 'y' in vars[q]:
-                    (self.dpqa).add(y[q][0] == vars[q]['y'])
-            # virtually putting everything down to acillary SLMs
-            # let solver pick some qubits to AOD, so we don't set a_q,0
-            # we also don't set c_q,0 and r_q,0, but enforce ordering when
-            # two qubits are both in AOD last round, i.e., don't swap
-            for q0 in range(self.num_qubits):
-                for q1 in range(q0+1, self.num_qubits):
-                    if vars[q0]['a'] == 1 and vars[q1]['a'] == 1:
-                        if vars[q0]['x'] == vars[q1]['x']:
-                            if vars[q0]['c'] < vars[q1]['c']:
-                                (self.dpqa).add(c[q0][0] < c[q1][0])
-                            if vars[q0]['c'] > vars[q1]['c']:
-                                (self.dpqa).add(c[q0][0] > c[q1][0])
-                            if vars[q0]['c'] == vars[q1]['c']:
-                                (self.dpqa).add(c[q0][0] == c[q1][0])
-                        if vars[q0]['y'] == vars[q1]['y']:
-                            if vars[q0]['r'] < vars[q1]['r']:
-                                (self.dpqa).add(r[q0][0] < r[q1][0])
-                            if vars[q0]['r'] > vars[q1]['r']:
-                                (self.dpqa).add(r[q0][0] > r[q1][0])
-                            if vars[q0]['r'] == vars[q1]['r']:
-                                (self.dpqa).add(r[q0][0] == r[q1][0])
+        if len(self.result_json['layers']) <= 0:
+            return
+
+        variables = self.result_json['layers'][-1]['qubits']
+
+        for q in range(self.num_qubits):
+            # load location info
+            if 'x' in variables[q]:
+                (self.dpqa).add(x[q][0] == variables[q]['x'])
+            if 'y' in variables[q]:
+                (self.dpqa).add(y[q][0] == variables[q]['y'])
+        # virtually putting everything down to acillary SLMs
+        # let solver pick some qubits to AOD, so we don't set a_q,0
+        # we also don't set c_q,0 and r_q,0, but enforce ordering when
+        # two qubits are both in AOD last round, i.e., don't swap
+        for q0 in range(self.num_qubits):
+            for q1 in range(q0+1, self.num_qubits):
+                if variables[q0]['a'] == 1 and variables[q1]['a'] == 1:
+                    if variables[q0]['x'] == variables[q1]['x']:
+                        if variables[q0]['c'] < variables[q1]['c']:
+                            (self.dpqa).add(c[q0][0] < c[q1][0])
+                        if variables[q0]['c'] > variables[q1]['c']:
+                            (self.dpqa).add(c[q0][0] > c[q1][0])
+                        if variables[q0]['c'] == variables[q1]['c']:
+                            (self.dpqa).add(c[q0][0] == c[q1][0])
+                    if variables[q0]['y'] == variables[q1]['y']:
+                        if variables[q0]['r'] < variables[q1]['r']:
+                            (self.dpqa).add(r[q0][0] < r[q1][0])
+                        if variables[q0]['r'] > variables[q1]['r']:
+                            (self.dpqa).add(r[q0][0] > r[q1][0])
+                        if variables[q0]['r'] == variables[q1]['r']:
+                            (self.dpqa).add(r[q0][0] == r[q1][0])
 
     def constraint_dependency_collision(
             self,
@@ -547,6 +550,7 @@ class DPQA:
                 # connectivity, so if a gate is in stage0, we can ignore all
                 # its collisions. If both gates are not in stage0, we impose.
         else:
+            # TODO: might need to add trash stage 0
             for gate, _ in enumerate(self.g_q[:-1]):
                 self.dpqa.add(t[gate] < t[gate+1])
             # raise ValueError("Do not support non graph-like circuits.")
