@@ -1,6 +1,6 @@
 import json
 import time
-from typing import Any, Mapping, Sequence
+from typing import Any, Dict, Sequence, Tuple, Mapping
 
 from networkx import Graph, max_weight_matching
 from z3 import And, Bool, Implies, Int, Not, Or, Solver, Then, is_true, sat
@@ -66,7 +66,7 @@ def max_degree(list_gate_qubits: Sequence[Sequence[int]],
     return max(count)
 
 
-def dependencyExtract(list_gate_qubits: Sequence[Sequence[int]],
+def dependency_extract(list_gate_qubits: Sequence[Sequence[int]],
                       count_program_qubit: int) -> Sequence[Sequence[int]]:
     """Extract dependency relations between the gates.
     If two gates g_1 and g_2 both acts on a qubit *and there is no gate
@@ -100,7 +100,7 @@ def dependencyExtract(list_gate_qubits: Sequence[Sequence[int]],
     return tuple(list_dependency)
 
 
-def pushLeftDepth(list_gate_qubits: Sequence[Sequence[int]],
+def push_left_depth(list_gate_qubits: Sequence[Sequence[int]],
                   count_program_qubit: int) -> int:
     """calculate the depth of circuit pushing every gate as left as possible.
 
@@ -137,12 +137,13 @@ class DPQA:
         self.g_s: Sequence[str] = tuple()
         self.dependencies: Sequence[Sequence[int]] = tuple()
         self.collisions: Sequence[Sequence[int]] = tuple()
-        self.gate_index_original: Mapping[Sequence[int], int] = {}
-        self.gate_index: Mapping[Sequence[int], int] = {}
+        self.gate_index_original: Dict[Sequence[int], int] = {}
+        self.gate_index: Dict[Sequence[int], int] = {}
         self.n_x: int = 0
         self.n_y: int = 0
         self.n_c: int = 0
         self.n_r: int = 0
+        self.optimal_ratio: float = 0
 
         self.print_detail: bool = print_detail
         self.all_commutable: bool = False
@@ -155,12 +156,11 @@ class DPQA:
         self.result_json['layers'] = []
         self.row_per_site = 3
         self.cardenc = "pysat"
-        self.optimal_ratio = None
 
-    def setOptimalRatio(self, ratio: float):
+    def set_optimal_ratio(self, ratio: float):
         self.optimal_ratio = ratio
 
-    def set_architecture(self, bounds: Sequence[int]):
+    def set_architecture(self, bounds: Tuple[int, int, int, int]):
         # bounds = [number of X, number of Y, number of C, number of R]
         self.n_x, self.n_y, self.n_c, self.n_r = bounds
 
@@ -173,8 +173,8 @@ class DPQA:
 
         self.num_qubits = nqubit or max(q for gate in program for q in gate) + 1
 
-        self.dependencies = dependencyExtract(self.g_q, self.num_qubits)
-        self.num_transports = pushLeftDepth(self.g_q, self.num_qubits)
+        self.dependencies = dependency_extract(self.g_q, self.num_qubits)
+        self.num_transports = push_left_depth(self.g_q, self.num_qubits)
 
         # for graph state circuit
         self.gate_index = {}
@@ -185,21 +185,21 @@ class DPQA:
             self.gate_index[self.g_q[i]] = i
         self.gate_index_original = self.gate_index
 
-    def setCommutation(self):
+    def set_commutation(self):
         self.all_commutable = True
         self.collisions = collision_extract(self.g_q)
         self.num_transports = max_degree(self.g_q, self.num_qubits)
 
-    def setAOD(self):
+    def set_all_AOD(self):
         self.all_aod = True
 
-    def setDepth(self, depth: int):
+    def set_depth(self, depth: int):
         self.num_transports = depth
 
-    def setPureGraph(self):
+    def set_pure_graph(self):
         self.pure_graph = True
 
-    def setNoTransfer(self):
+    def set_no_transfer(self):
         self.no_transfer = True
 
     def setRowSite(self, row_per_site: int):
@@ -210,7 +210,7 @@ class DPQA:
         for k, v in metadata.items():
             self.result_json[k] = v
 
-    def writeSettingJson(self):
+    def write_settings_json(self):
         self.result_json['sat'] = self.satisfiable
         self.result_json['n_t'] = self.num_transports
         self.result_json['n_q'] = self.num_qubits
@@ -816,10 +816,10 @@ class DPQA:
     def hybrid_strategy(self):
         # default strategy for hybrid solving: if n_q <30, use optimal solving
         # i.e., optimal_ratio=1 with no transfer; if n_q >= 30, last 5% optimal
-        if self.optimal_ratio is None:
-            self.setOptimalRatio(1 if self.num_qubits < 30 else 0.05)
+        if not self.optimal_ratio:
+            self.set_optimal_ratio(1 if self.num_qubits < 30 else 0.05)
         if self.optimal_ratio == 1 and self.num_qubits < 30:
-            self.setNoTransfer()
+            self.set_no_transfer()
 
     def solve_greedy(self, step: int):
         print(f"greedy solving with {step} step")
@@ -840,7 +840,7 @@ class DPQA:
             (self.dpqa).push()  # gate bound
             self.constraint_gate_card(bound_gate, step+1, t)
 
-            solved_batch_gates = True if (self.dpqa).check() == sat else False
+            solved_batch_gates = (self.dpqa).check() == sat
 
             while not solved_batch_gates:
                 print(f"    no solution, bound_gate={bound_gate} too large")
@@ -852,8 +852,7 @@ class DPQA:
                 (self.dpqa).push()  # new gate bound
                 self.constraint_gate_card(bound_gate, step+1, t)
 
-                solved_batch_gates =\
-                    True if (self.dpqa).check() == sat else False
+                solved_batch_gates = (self.dpqa).check() == sat
 
             print(f"    found solution with {bound_gate} gates in {step} step")
             self.process_partial_solution(step+1, a, c, r, x, y, t)
@@ -869,7 +868,7 @@ class DPQA:
         t = self.constraint_gate_batch(step+1, c, r, x, y)
         self.constraint_gate_card(bound_gate, step+1, t)
 
-        solved_batch_gates = True if (self.dpqa).check() == sat else False
+        solved_batch_gates = (self.dpqa).check() == sat
 
         while not solved_batch_gates:
             print(f"    no solution, step={step} too small")
@@ -880,18 +879,18 @@ class DPQA:
                 print(self.g_q)
             self.constraint_gate_card(bound_gate, step+1, t)
 
-            solved_batch_gates =\
-                True if (self.dpqa).check() == sat else False
+            solved_batch_gates = (self.dpqa).check() == sat
 
         print(f"    found solution with {bound_gate} gates in {step} step")
         self.process_partial_solution(step+1, a, c, r, x, y, t)
 
     def solve(self, save_results: bool = True):
 
-        self.writeSettingJson()
+        self.write_settings_json()
         t_s = time.time()
         step = 1  # compile for 1 step, or 2 stages each time
         total_g_q = len(self.g_q)
+
         self.solve_greedy(step)
         if len(self.g_q) > 0:
             print(f'final {len(self.g_q)/total_g_q*100} percent')
