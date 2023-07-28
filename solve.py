@@ -1,6 +1,7 @@
 import json
 import time
 from typing import Any, Dict, Sequence, Tuple, Mapping
+from itertools import combinations
 
 from networkx import Graph, max_weight_matching
 from z3 import And, Bool, Implies, Int, Not, Or, Solver, Then, is_true, sat
@@ -552,7 +553,7 @@ class DPQA:
         else:
             # TODO: might need to add trash stage 0
             for gate, _ in enumerate(self.g_q[:-1]):
-                self.dpqa.add(t[gate] < t[gate+1])
+                self.dpqa.add(t[gate] <= t[gate+1])
             # raise ValueError("Do not support non graph-like circuits.")
 
     def constraint_connectivity(
@@ -583,9 +584,11 @@ class DPQA:
             for q0 in range(self.num_qubits):
                 for q1 in range(q0+1, self.num_qubits):
                     for s in range(1, num_stage):
+                        # Qubits should be far away if not interacting
                         if self.gate_index[(q0, q1)] == -1:
                             (self.dpqa).add(
                                 Or(x[q0][s] != x[q1][s], y[q0][s] != y[q1][s]))
+                        # If qubits are close, they will interact
                         else:
                             (self.dpqa).add(Implies
                                             (And(x[q0][s] == x[q1][s],
@@ -594,7 +597,20 @@ class DPQA:
                                              t[self.gate_index[(q0, q1)]] == s)
                                             )
         else:
-            raise ValueError("Do not support non graph-like circuits.")
+            for q0, q1 in combinations(range(self.num_qubits), r=2):
+                for s in range(1, num_stage):
+                    if (q0, q1) in self.g_q or (q1, q0) in self.g_q:
+                        (self.dpqa).add(Or(x[q0][s] != x[q1][s], y[q0][s] != y[q1][s]))
+                    else:
+                        # TODO: Not right
+                        (self.dpqa).add(Implies
+                                        (And(x[q0][s] == x[q1][s],
+                                                y[q0][s] == y[q1][s]
+                                                ),
+                                            t[self.gate_index[(q0, q1)]] == s)
+                                        )
+
+            # raise ValueError("Do not support non graph-like circuits.")
             # global CZ switch
             # (self.dpqa).add(
             #     self.n_g == sum([
