@@ -417,19 +417,24 @@ class DPQA:
             c: Sequence[Sequence[Any]],
             r: Sequence[Sequence[Any]],
     ):
-        if self.pure_graph:
+        """ Two atoms cannot be in the same AOD site or SLM site. Removed pure_graph condition."""
+
+
+        # if self.pure_graph:
             # bound number of atoms in each site, needed if not double counting
-            for q0 in range(self.num_qubits):
-                for q1 in range(q0+1, self.num_qubits):
-                    for s in range(num_stage):
-                        (self.dpqa).add(
-                            Implies(And(a[q0][s], a[q1][s]),
-                                    Or(c[q0][s] != c[q1][s],
-                                       r[q0][s] != r[q1][s])))
-                        (self.dpqa).add(
-                            Implies(And(Not(a[q0][s]), Not(a[q1][s])),
-                                    Or(x[q0][s] != x[q1][s],
-                                       y[q0][s] != y[q1][s])))
+        for q0 in range(self.num_qubits):
+            for q1 in range(q0+1, self.num_qubits):
+                for s in range(num_stage):
+                    # Two atoms cannot be in the same AOD site
+                    (self.dpqa).add(
+                        Implies(And(a[q0][s], a[q1][s]),
+                                Or(c[q0][s] != c[q1][s],
+                                    r[q0][s] != r[q1][s])))
+                    # Two atoms cannot be in the same SLM site
+                    (self.dpqa).add(
+                        Implies(And(Not(a[q0][s]), Not(a[q1][s])),
+                                Or(x[q0][s] != x[q1][s],
+                                    y[q0][s] != y[q1][s])))
 
     def constraint_no_swap(
             self,
@@ -533,6 +538,7 @@ class DPQA:
                 # stage0 is the 'trash can' for gates where we don't impose
                 # connectivity, so if a gate is in stage0, we can ignore all
                 # its collisions. If both gates are not in stage0, we impose.
+        else:
             raise ValueError("Do not support non graph-like circuits.")
 
     def constraint_connectivity(
@@ -808,6 +814,7 @@ class DPQA:
             self.setNoTransfer()
 
     def solve_greedy(self, step: int):
+        print(f"greedy solving with {step} step")
         a, c, r, x, y = self.solver_init(step+1)
         total_g_q = len(self.g_q)
         t_curr = 1
@@ -847,6 +854,7 @@ class DPQA:
             (self.dpqa).pop()  # the gate related constraints for solved batch
 
     def solve_optimal(self, step: int):
+        print(f"optimal solving with {step} step")
         bound_gate = len(self.g_q)
 
         a, c, r, x, y = self.solver_init(step+1)
@@ -870,7 +878,7 @@ class DPQA:
         print(f"    found solution with {bound_gate} gates in {step} step")
         self.process_partial_solution(step+1, a, c, r, x, y, t)
 
-    def solve(self):
+    def solve(self, save_results: bool = True):
 
         self.writeSettingJson()
         t_s = time.time()
@@ -886,7 +894,8 @@ class DPQA:
         self.result_json['n_t'] = len(self.result_json['layers'])
         print(f"runtime {self.result_json['duration']}")
 
-        if not self.dir:
-            self.dir = "./results/smt/"
-        with open(self.dir + f"{self.result_json['name']}.json", 'w') as f:
-            json.dump(self.result_json, f)
+        if save_results:
+            if not self.dir:
+                self.dir = "./results/smt/"
+            with open(self.dir + f"{self.result_json['name']}.json", 'w') as f:
+                json.dump(self.result_json, f)
