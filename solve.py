@@ -547,7 +547,9 @@ class DPQA:
                 # connectivity, so if a gate is in stage0, we can ignore all
                 # its collisions. If both gates are not in stage0, we impose.
         else:
-            raise ValueError("Do not support non graph-like circuits.")
+            for gate, _ in enumerate(self.g_q[:-1]):
+                self.dpqa.add(t[gate] < t[gate+1])
+            # raise ValueError("Do not support non graph-like circuits.")
 
     def constraint_connectivity(
             self,
