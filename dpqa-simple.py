@@ -9,23 +9,26 @@ from networkx import Graph, max_weight_matching
 from z3 import And, Bool, Implies, Int, Not, Or, Solver, Then, is_true, sat
 from qiskit import QuantumCircuit
 from qiskit.converters import circuit_to_dag
+from pysat.card import CardEnc
 
 
 PYSAT_ENCODING = 2  # default choice: sequential counter
 
 
-
 @dataclass
 class Architecture:
     """class to encode the architecture of the quantum device."""
+
     n_x: int = 0
     n_y: int = 0
     n_c: int = 0
     n_r: int = 0
 
+
 @dataclass
 class DPQA_Settings:
     """class to encode the settings of the compilation problem."""
+
     name: str = ""
     directory: str = ""
     verbose: bool = False
@@ -41,16 +44,18 @@ class DPQA_Settings:
 class DPQA_Simple:
     """class to encode the compilation problem to SMT and solves using Z3."""
 
-    def __init__(self,
-                 name: str,
-                 directory: str = "",
-                 bounds: Tuple[int, int, int, int] = (16, 16, 16, 16),
-                 print_detail: bool = False,
-                 all_commutable: bool = False,
-                 all_aod: bool = False,
-                 no_transfer: bool = False,
-                 pure_graph: bool = False,
-                 ):
+    def __init__(
+        self,
+        name: str,
+        directory: str = "",
+        bounds: Tuple[int, int, int, int] = (16, 16, 16, 16),
+        print_detail: bool = False,
+        all_commutable: bool = False,
+        all_aod: bool = False,
+        no_transfer: bool = False,
+        pure_graph: bool = False,
+    ):
+        self.dpqa = Solver()
 
         self.num_transports: int = 1
         self.num_qubits: int = 0
@@ -65,9 +70,15 @@ class DPQA_Simple:
         self.architecture = Architecture(*bounds)
         self.satisfiable: bool = False
 
-        self.settings = DPQA_Settings(name, directory, print_detail, all_commutable,
-                                      all_aod, no_transfer, pure_graph)
-
+        self.settings = DPQA_Settings(
+            name,
+            directory,
+            print_detail,
+            all_commutable,
+            all_aod,
+            no_transfer,
+            pure_graph,
+        )
 
         self.result_json = {"name": name, "layers": []}
 
@@ -97,13 +108,13 @@ class DPQA_Simple:
         self.result_json["g_s"] = self.gate_names
 
     def constraint_all_aod(self, num_stage: int, a: Sequence[Sequence[Any]]):
-        """ All qubits on AODs """
+        """All qubits on AODs"""
         if self.settings.all_aod:
             for q, s in product(range(self.num_gates), range(num_stage)):
                 (self.dpqa).add(a[q][s])
 
     def constraint_no_transfer(self, num_stage: int, a: Sequence[Sequence[Any]]):
-        """ No transfer from AOD to SLM and vice versa """
+        """No transfer from AOD to SLM and vice versa"""
         if self.settings.no_transfer:
             for q, s in product(range(self.num_gates), range(num_stage)):
                 (self.dpqa).add(a[q][s] == a[q][0])
@@ -116,7 +127,7 @@ class DPQA_Simple:
         c: Sequence[Sequence[Any]],
         r: Sequence[Sequence[Any]],
     ):
-        """ Bounds on the variables """
+        """Bounds on the variables"""
         for q in range(self.num_qubits):
             for s in range(1, num_stage):
                 # starting from s=1 since the values with s=0 are loaded
@@ -138,7 +149,7 @@ class DPQA_Simple:
         x: Sequence[Sequence[Any]],
         y: Sequence[Sequence[Any]],
     ):
-        """ SLMs do not move """
+        """SLMs do not move"""
         for q in range(self.num_qubits):
             for s in range(num_stage - 1):
                 (self.dpqa).add(Implies(Not(a[q][s]), x[q][s] == x[q][s + 1]))
@@ -153,7 +164,7 @@ class DPQA_Simple:
         c: Sequence[Sequence[Any]],
         r: Sequence[Sequence[Any]],
     ):
-        """ AODs move together """
+        """AODs move together"""
         for q in range(self.num_qubits):
             for s in range(num_stage - 1):
                 (self.dpqa).add(Implies(a[q][s], c[q][s + 1] == c[q][s]))
@@ -185,19 +196,21 @@ class DPQA_Simple:
     ):
         for q0, q1 in product(range(self.num_qubits), range(self.num_qubits)):
             for s in range(num_stage - 1):
-                if q0 != q1:
-                    (self.dpqa).add(
-                        Implies(
-                            And(a[q0][s], a[q1][s], c[q0][s] < c[q1][s]),
-                            x[q0][s + 1] <= x[q1][s + 1],
-                        )
+                if q0 == q1:
+                    continue
+
+                (self.dpqa).add(
+                    Implies(
+                        And(a[q0][s], a[q1][s], c[q0][s] < c[q1][s]),
+                        x[q0][s + 1] <= x[q1][s + 1],
                     )
-                    (self.dpqa).add(
-                        Implies(
-                            And(a[q0][s], a[q1][s], r[q0][s] < r[q1][s]),
-                            y[q0][s + 1] <= y[q1][s + 1],
-                        )
+                )
+                (self.dpqa).add(
+                    Implies(
+                        And(a[q0][s], a[q1][s], r[q0][s] < r[q1][s]),
+                        y[q0][s + 1] <= y[q1][s + 1],
                     )
+                )
 
     def constraint_slm_order_from_aod(
         self,
@@ -209,22 +222,22 @@ class DPQA_Simple:
         r: Sequence[Sequence[Any]],
     ):
         # row/col constraints when atom transfer from SLM to AOD
-        for q in range(self.num_qubits):
-            for qq in range(self.num_qubits):
-                for s in range(num_stage):
-                    if q != qq:
-                        (self.dpqa).add(
-                            Implies(
-                                And(a[q][s], a[qq][s], x[q][s] < x[qq][s]),
-                                c[q][s] < c[qq][s],
-                            )
-                        )
-                        (self.dpqa).add(
-                            Implies(
-                                And(a[q][s], a[qq][s], y[q][s] < y[qq][s]),
-                                r[q][s] < r[qq][s],
-                            )
-                        )
+        for q0, q1 in product(range(self.num_qubits), range(self.num_qubits)):
+            for s in range(num_stage):
+                if q0 == q1:
+                    continue
+                (self.dpqa).add(
+                    Implies(
+                        And(a[q0][s], a[q1][s], x[q0][s] < x[q1][s]),
+                        c[q0][s] < c[q1][s],
+                    )
+                )
+                (self.dpqa).add(
+                    Implies(
+                        And(a[q0][s], a[q1][s], y[q0][s] < y[q1][s]),
+                        r[q0][s] < r[q1][s],
+                    )
+                )
 
     def constraint_aod_crowding(
         self,
@@ -236,30 +249,30 @@ class DPQA_Simple:
         r: Sequence[Sequence[Any]],
     ):
         # not too many AOD columns/rows can be together, default 3
-        for q in range(self.num_qubits):
-            for qq in range(self.num_qubits):
-                for s in range(num_stage - 1):
-                    if q != qq:
-                        (self.dpqa).add(
-                            Implies(
-                                And(
-                                    a[q][s],
-                                    a[qq][s],
-                                    c[q][s] - c[qq][s] > self.row_per_site - 1,
-                                ),
-                                x[q][s + 1] > x[qq][s + 1],
-                            )
-                        )
-                        (self.dpqa).add(
-                            Implies(
-                                And(
-                                    a[q][s],
-                                    a[qq][s],
-                                    r[q][s] - r[qq][s] > self.row_per_site - 1,
-                                ),
-                                y[q][s + 1] > y[qq][s + 1],
-                            )
-                        )
+        for q0, q1 in product(range(self.num_qubits), range(self.num_qubits)):
+            for s in range(num_stage - 1):
+                if q0 == q1:
+                    continue
+                (self.dpqa).add(
+                    Implies(
+                        And(
+                            a[q0][s],
+                            a[q1][s],
+                            c[q0][s] - c[q1][s] > self.settings.row_per_site - 1,
+                        ),
+                        x[q0][s + 1] > x[q1][s + 1],
+                    )
+                )
+                (self.dpqa).add(
+                    Implies(
+                        And(
+                            a[q0][s],
+                            a[q1][s],
+                            r[q0][s] - r[q1][s] > self.settings.row_per_site - 1,
+                        ),
+                        y[q0][s + 1] > y[q1][s + 1],
+                    )
+                )
 
     def constraint_aod_crowding_init(
         self,
@@ -270,29 +283,29 @@ class DPQA_Simple:
         r: Sequence[Sequence[Any]],
     ):
         # not too many AOD cols/rows can be together, default 3, for init stage
-        for q in range(self.num_qubits):
-            for qq in range(self.num_qubits):
-                if q != qq:
-                    (self.dpqa).add(
-                        Implies(
-                            And(
-                                a[q][0],
-                                a[qq][0],
-                                c[q][0] - c[qq][0] > self.row_per_site - 1,
-                            ),
-                            x[q][0] > x[qq][0],
-                        )
-                    )
-                    (self.dpqa).add(
-                        Implies(
-                            And(
-                                a[q][0],
-                                a[qq][0],
-                                r[q][0] - r[qq][0] > self.row_per_site - 1,
-                            ),
-                            y[q][0] > y[qq][0],
-                        )
-                    )
+        for q0, q1 in product(range(self.num_qubits), range(self.num_qubits)):
+            if q0 == q1:
+                continue
+            (self.dpqa).add(
+                Implies(
+                    And(
+                        a[q0][0],
+                        a[q1][0],
+                        c[q0][0] - c[q1][0] > self.settings.row_per_site - 1,
+                    ),
+                    x[q0][0] > x[q1][0],
+                )
+            )
+            (self.dpqa).add(
+                Implies(
+                    And(
+                        a[q0][0],
+                        a[q1][0],
+                        r[q0][0] - r[q1][0] > self.settings.row_per_site - 1,
+                    ),
+                    y[q0][0] > y[q1][0],
+                )
+            )
 
     def constraint_site_crowding(
         self,
@@ -370,9 +383,8 @@ class DPQA_Simple:
             for q in range(self.num_qubits)
         ]
 
-        (self.dpqa) = Solver()
-        if self.cardenc == "z3atleast":
-            (self.dpqa) = Then(
+        if self.settings.cardinality_encoding == "z3atleast":
+            self.dpqa = Then(
                 "simplify", "solve-eqs", "card2bv", "bit-blast", "aig", "sat"
             ).solver()
 
@@ -460,7 +472,6 @@ class DPQA_Simple:
         x: Sequence[Sequence[Any]],
         y: Sequence[Sequence[Any]],
     ):
-
         # TODO: Not right
         for q0, q1 in combinations(range(self.num_qubits), r=2):
             for s in range(1, num_stage):
@@ -506,8 +517,6 @@ class DPQA_Simple:
         bound_gate: int,
         t: Sequence[Any],
     ):
-        from pysat.card import CardEnc
-
         offset = num_gate - 1
 
         # since stage0 is 'trash', the total number of variables to
@@ -549,7 +558,7 @@ class DPQA_Simple:
     ):
         # add the cardinality constraints on the number of gates
 
-        method = self.cardenc
+        method = self.settings.cardinality_encoding
         num_gate = len(self.gates)
         if method == "summation":
             # (self.dpqa).add(sum([If(t[g] == s, 1, 0) for g in range(num_gate)
@@ -611,37 +620,6 @@ class DPQA_Simple:
                     )
         return layer
 
-    """how to stitch partial solution: (suppose there are 3 stages or 2
-        steps in each partial solution). a/c/r_s variables govern the move
-        from stage s to s+1, so a/c/r for the last stage doesn't matter.
-        
-                                        partial solutions:
-
-        full solution:                    ----------- x/y_0
-                                            | a/c/r_0 |
-        ----------- x/y_0  <-----------   ----------- x/y_1
-        | a/c/r_0 |  <-----------------   | a/c/r_1 |
-        ----------- x/y_1  <-----------   ----------- x/y_2  ----
-        | a/c/r_1 |  <------------.       | a/c/r_2 |           |
-        ----------- x/y_2  <-----. \                            |
-        | a/c/r_2 |  <---------.  \ \                           | 
-        ----------- x/y_3       \  \ \    ----------- x/y_0  <---
-        | a/c/r_3 |              \  \ \-  | a/c/r_0 |
-                                    \  \--  ----------- x/y_1
-                                    \----  | a/c/r_1 |
-                                            ...
-        
-        just above, we prepared a Dict `layer` that looks like
-                    ----------- x/y_s
-                    | a/c/r_s |
-
-        if s=0, we need to overwrite the a/c/r of the last stage of the
-        full solution, because they are copied over from the last stage of
-        the previous partial solution, and those values are not useful.
-        
-        except for this case, just append `layer` to the full solution.
-        """
-
     def process_partial_solution(
         self,
         num_stage: int,
@@ -700,12 +678,12 @@ class DPQA_Simple:
         self.remove_gates(gates_done)
 
     def hybrid_strategy(self):
-        # default strategy for hybrid solving: if n_q <30, use optimal solving
-        # i.e., optimal_ratio=1 with no transfer; if n_q >= 30, last 5% optimal
-        if not self.optimal_ratio:
-            self.set_optimal_ratio(1 if self.num_qubits < 30 else 0.05)
-        if self.optimal_ratio == 1 and self.num_qubits < 30:
-            self.set_no_transfer()
+        """default strategy for hybrid solving: if n_q <30, use optimal solving
+        i.e., optimal_ratio=1 with no transfer; if n_q >= 30, last 5% optimal"""
+        if not self.settings.optimal_ratio:
+            self.settings.optimal_ratio = 1 if self.num_qubits < 30 else 0.05
+        if self.settings.optimal_ratio == 1 and self.num_qubits < 30:
+            self.settings.no_transfer = True
 
     def solve_greedy(self, step: int):
         print(f"greedy solving with {step} step")
@@ -713,7 +691,7 @@ class DPQA_Simple:
         total_g_q = len(self.gates)
         t_curr = 1
 
-        while len(self.gates) > self.optimal_ratio * total_g_q:
+        while len(self.gates) > self.settings.optimal_ratio * total_g_q:
             print(f"gate batch {t_curr}")
 
             (self.dpqa).push()  # gate related constraints
@@ -747,6 +725,8 @@ class DPQA_Simple:
             (self.dpqa).pop()  # the gate related constraints for solved batch
 
     def solve_optimal(self, step: int):
+        """optimal solving with step steps"""
+
         print(f"optimal solving with {step} step")
         bound_gate = len(self.gates)
 
@@ -787,5 +767,6 @@ class DPQA_Simple:
         print(f"runtime {self.result_json['duration']}")
 
         if save_results:
-            with open(self.settings.directory + f"{self.result_json['name']}.json", "w") as f:
-                json.dump(self.result_json, f)
+            path = self.settings.directory + f"{self.result_json['name']}.json"
+            with open(path, "w", encoding="utf-8") as file:
+                json.dump(self.result_json, file)
