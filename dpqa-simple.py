@@ -9,11 +9,56 @@ from networkx import Graph, max_weight_matching
 from z3 import And, Bool, Implies, Int, Not, Or, Solver, Then, is_true, sat
 from qiskit import QuantumCircuit
 from qiskit.converters import circuit_to_dag
+from qiskit.dagcircuit import DAGCircuit
+from qiskit.dagcircuit.dagnode import DAGOpNode
 from pysat.card import CardEnc
 
 
 PYSAT_ENCODING = 2  # default choice: sequential counter
 
+@dataclass
+class QuantumGate:
+    """class to encode a quantum gate."""
+    name: str
+    qubits: Tuple[int]
+    ancestor: "QuantumGate" | None = None
+
+@dataclass
+class Circuit:
+    """class to encode a quantum circuit."""
+    circuit: QuantumCircuit
+    num_qubits: int
+    dag: DAGCircuit
+    gates: List[DAGOpNode]
+    num_gates: int
+    gates_qubits: List[Tuple[int, int]]
+
+    @staticmethod
+    def from_qiskit_circuit(circuit: QuantumCircuit) -> "Circuit":
+        """Construct a Circuit from a QuantumCircuit."""
+        num_qubits = circuit.num_qubits
+        dag = circuit_to_dag(circuit)
+        gates = dag.op_nodes()
+        num_gates = len(gates)
+        gates_qubits = [node_qubits(circuit, node) for node in gates]
+
+        return Circuit(circuit, num_qubits, dag, gates, num_gates, gates_qubits)
+
+def node_qubits(circ: QuantumCircuit, node: DAGOpNode) -> Tuple[int, int]:
+    """Get the qubits of a DAGOpNode."""
+    return tuple(map(lambda q: circ.find_bit(q).index, node.qargs))
+
+# def op_node_to_gate(circ: QuantumCircuit, node: DAGOpNode) -> QuantumGate:
+#     """Convert a DAGOpNode to a QuantumGate."""
+#     qubits = tuple(map(lambda q: circ.find_bit(q).index, node.qargs))
+#
+#     return QuantumGate(
+#         node.name,
+#         qubits
+#         None,
+#     )
+# def circuit_to_gates(circ: QuantumCircuit) -> List[QuantumGate]:
+#     dag = circuit_to_dag(circ)
 
 @dataclass
 class Architecture:
@@ -26,16 +71,14 @@ class Architecture:
 
 
 @dataclass
-class DPQA_Settings:
+class DPQASettings:
     """class to encode the settings of the compilation problem."""
 
     name: str = ""
     directory: str = ""
     verbose: bool = False
-    all_commutable: bool = False
     all_aod: bool = False
     no_transfer: bool = False
-    pure_graph: bool = False
     optimal_ratio: float = 0
     row_per_site: int = 3
     cardinality_encoding: str = "pysat"
@@ -49,35 +92,24 @@ class DPQA_Simple:
         name: str,
         directory: str = "",
         bounds: Tuple[int, int, int, int] = (16, 16, 16, 16),
-        print_detail: bool = False,
-        all_commutable: bool = False,
+        verbose: bool = False,
         all_aod: bool = False,
         no_transfer: bool = False,
-        pure_graph: bool = False,
     ):
-        self.dpqa = Solver()
-
-        self.num_transports: int = 1
-        self.num_qubits: int = 0
-        self.num_gates: int = 0
-        self.gates: Sequence[Sequence[int]] = tuple()
-        self.gate_names: Sequence[str] = tuple()
-        # self.dependencies: Sequence[Sequence[int]] = tuple()
-        # self.collisions: Sequence[Sequence[int]] = tuple()
-        # self.gate_index_original: Dict[Sequence[int], int] = {}
-        # self.gate_index: Dict[Sequence[int], int] = {}
-
-        self.architecture = Architecture(*bounds)
+        self.dpqa: Solver = Solver()
         self.satisfiable: bool = False
 
-        self.settings = DPQA_Settings(
+        self.circuit: Circuit | None = None
+        self.architecture: Architecture = Architecture(*bounds)
+
+        self.num_transports: int = 1
+
+        self.settings = DPQASettings(
             name,
             directory,
-            print_detail,
-            all_commutable,
+            verbose,
             all_aod,
             no_transfer,
-            pure_graph,
         )
 
         self.result_json = {"name": name, "layers": []}
@@ -91,32 +123,31 @@ class DPQA_Simple:
             self.result_json[k] = v
 
     def write_settings_json(self):
-        self.result_json["sat"] = self.satisfiable
-        self.result_json["n_t"] = self.num_transports
-        self.result_json["n_q"] = self.num_qubits
-        self.result_json["all_commutable"] = self.settings.all_commutable
-        self.result_json["all_aod"] = self.settings.all_aod
-        self.result_json["no_transfer"] = self.settings.no_transfer
-        self.result_json["pure_graph"] = self.settings.pure_graph
-        self.result_json["n_c"] = self.architecture.n_c
-        self.result_json["n_r"] = self.architecture.n_r
-        self.result_json["n_x"] = self.architecture.n_x
-        self.result_json["n_y"] = self.architecture.n_y
-        self.result_json["row_per_site"] = self.settings.row_per_site
-        self.result_json["n_g"] = self.num_gates
-        self.result_json["g_q"] = self.gates
-        self.result_json["g_s"] = self.gate_names
+        pass
+        # self.result_json["sat"] = self.satisfiable
+        # self.result_json["n_t"] = self.num_transports
+        # self.result_json["n_q"] = self.circuit.num_qubits
+        # self.result_json["all_aod"] = self.settings.all_aod
+        # self.result_json["no_transfer"] = self.settings.no_transfer
+        # self.result_json["n_c"] = self.architecture.n_c
+        # self.result_json["n_r"] = self.architecture.n_r
+        # self.result_json["n_x"] = self.architecture.n_x
+        # self.result_json["n_y"] = self.architecture.n_y
+        # self.result_json["row_per_site"] = self.settings.row_per_site
+        # self.result_json["n_g"] = self.circuit.num_gates
+        # self.result_json["g_q"] = self.gates
+        # self.result_json["g_s"] = self.gate_names
 
     def constraint_all_aod(self, num_stage: int, a: Sequence[Sequence[Any]]):
         """All qubits on AODs"""
         if self.settings.all_aod:
-            for q, s in product(range(self.num_gates), range(num_stage)):
+            for q, s in product(range(self.circuit.num_gates), range(num_stage)):
                 (self.dpqa).add(a[q][s])
 
     def constraint_no_transfer(self, num_stage: int, a: Sequence[Sequence[Any]]):
         """No transfer from AOD to SLM and vice versa"""
         if self.settings.no_transfer:
-            for q, s in product(range(self.num_gates), range(num_stage)):
+            for q, s in product(range(self.circuit.num_gates), range(num_stage)):
                 (self.dpqa).add(a[q][s] == a[q][0])
 
     def constraint_var_bounds(
@@ -128,7 +159,7 @@ class DPQA_Simple:
         r: Sequence[Sequence[Any]],
     ):
         """Bounds on the variables"""
-        for q in range(self.num_qubits):
+        for q in range(self.circuit.num_qubits):
             for s in range(1, num_stage):
                 # starting from s=1 since the values with s=0 are loaded
                 (self.dpqa).add(x[q][s] >= 0)
@@ -150,7 +181,7 @@ class DPQA_Simple:
         y: Sequence[Sequence[Any]],
     ):
         """SLMs do not move"""
-        for q in range(self.num_qubits):
+        for q in range(self.circuit.num_qubits):
             for s in range(num_stage - 1):
                 (self.dpqa).add(Implies(Not(a[q][s]), x[q][s] == x[q][s + 1]))
                 (self.dpqa).add(Implies(Not(a[q][s]), y[q][s] == y[q][s + 1]))
@@ -165,12 +196,12 @@ class DPQA_Simple:
         r: Sequence[Sequence[Any]],
     ):
         """AODs move together"""
-        for q in range(self.num_qubits):
+        for q in range(self.circuit.num_qubits):
             for s in range(num_stage - 1):
                 (self.dpqa).add(Implies(a[q][s], c[q][s + 1] == c[q][s]))
                 (self.dpqa).add(Implies(a[q][s], r[q][s + 1] == r[q][s]))
-        for q0 in range(self.num_qubits):
-            for q1 in range(q0 + 1, self.num_qubits):
+        for q0 in range(self.circuit.num_qubits):
+            for q1 in range(q0 + 1, self.circuit.num_qubits):
                 for s in range(num_stage - 1):
                     (self.dpqa).add(
                         Implies(
@@ -194,7 +225,7 @@ class DPQA_Simple:
         c: Sequence[Sequence[Any]],
         r: Sequence[Sequence[Any]],
     ):
-        for q0, q1 in product(range(self.num_qubits), range(self.num_qubits)):
+        for q0, q1 in product(range(self.circuit.num_qubits), range(self.circuit.num_qubits)):
             for s in range(num_stage - 1):
                 if q0 == q1:
                     continue
@@ -222,7 +253,7 @@ class DPQA_Simple:
         r: Sequence[Sequence[Any]],
     ):
         # row/col constraints when atom transfer from SLM to AOD
-        for q0, q1 in product(range(self.num_qubits), range(self.num_qubits)):
+        for q0, q1 in product(range(self.circuit.num_qubits), range(self.circuit.num_qubits)):
             for s in range(num_stage):
                 if q0 == q1:
                     continue
@@ -249,7 +280,7 @@ class DPQA_Simple:
         r: Sequence[Sequence[Any]],
     ):
         # not too many AOD columns/rows can be together, default 3
-        for q0, q1 in product(range(self.num_qubits), range(self.num_qubits)):
+        for q0, q1 in product(range(self.circuit.num_qubits), range(self.circuit.num_qubits)):
             for s in range(num_stage - 1):
                 if q0 == q1:
                     continue
@@ -283,7 +314,7 @@ class DPQA_Simple:
         r: Sequence[Sequence[Any]],
     ):
         # not too many AOD cols/rows can be together, default 3, for init stage
-        for q0, q1 in product(range(self.num_qubits), range(self.num_qubits)):
+        for q0, q1 in product(range(self.circuit.num_qubits), range(self.circuit.num_qubits)):
             if q0 == q1:
                 continue
             (self.dpqa).add(
@@ -318,10 +349,9 @@ class DPQA_Simple:
     ):
         """Two atoms cannot be in the same AOD site or SLM site. Removed pure_graph condition."""
 
-        # if self.pure_graph:
         # bound number of atoms in each site, needed if not double counting
-        for q0 in range(self.num_qubits):
-            for q1 in range(q0 + 1, self.num_qubits):
+        for q0 in range(self.circuit.num_qubits):
+            for q1 in range(q0 + 1, self.circuit.num_qubits):
                 for s in range(num_stage):
                     # Two atoms cannot be in the same AOD site
                     (self.dpqa).add(
@@ -346,8 +376,8 @@ class DPQA_Simple:
         y: Sequence[Sequence[Any]],
     ):
         # no atom transfer if two atoms meet
-        for q0 in range(self.num_qubits):
-            for q1 in range(q0 + 1, self.num_qubits):
+        for q0 in range(self.circuit.num_qubits):
+            for q1 in range(q0 + 1, self.circuit.num_qubits):
                 for s in range(1, num_stage):
                     (self.dpqa).add(
                         Implies(
@@ -356,31 +386,33 @@ class DPQA_Simple:
                         )
                     )
 
-    def solver_init(self, num_stage: int = 2):
+    def _solver_init(self, num_stage: int = 2):
         # define the variables and add the constraints that do not depend on
         # the gates to execute. return the variable arrays a, c, r, x, y
+        if self.circuit is None:
+            raise ValueError("Circuit is not set")
 
         # variables
         a = [
             [Bool(f"a_q{q}_t{t}") for t in range(num_stage)]
-            for q in range(self.num_qubits)
+            for q in range(self.circuit.num_qubits)
         ]
         # for col and row, the data does not matter if atom in SLM
         c = [
             [Int(f"c_q{q}_t{t}") for t in range(num_stage)]
-            for q in range(self.num_qubits)
+            for q in range(self.circuit.num_qubits)
         ]
         r = [
             [Int(f"r_q{q}_t{t}") for t in range(num_stage)]
-            for q in range(self.num_qubits)
+            for q in range(self.circuit.num_qubits)
         ]
         x = [
             [Int(f"x_q{q}_t{t}") for t in range(num_stage)]
-            for q in range(self.num_qubits)
+            for q in range(self.circuit.num_qubits)
         ]
         y = [
             [Int(f"y_q{q}_t{t}") for t in range(num_stage)]
-            for q in range(self.num_qubits)
+            for q in range(self.circuit.num_qubits)
         ]
 
         if self.settings.cardinality_encoding == "z3atleast":
@@ -388,6 +420,7 @@ class DPQA_Simple:
                 "simplify", "solve-eqs", "card2bv", "bit-blast", "aig", "sat"
             ).solver()
 
+        # Non-circuit dependent constraints
         self.constraint_all_aod(num_stage, a)
         self.constraint_no_transfer(num_stage, a)
         self.constraint_var_bounds(num_stage, x, y, c, r)
@@ -415,7 +448,7 @@ class DPQA_Simple:
 
         variables = self.result_json["layers"][-1]["qubits"]
 
-        for q in range(self.num_qubits):
+        for q in range(self.circuit.num_qubits):
             # load location info
             if "x" in variables[q]:
                 (self.dpqa).add(x[q][0] == variables[q]["x"])
@@ -425,8 +458,8 @@ class DPQA_Simple:
         # let solver pick some qubits to AOD, so we don't set a_q,0
         # we also don't set c_q,0 and r_q,0, but enforce ordering when
         # two qubits are both in AOD last round, i.e., don't swap
-        for q0 in range(self.num_qubits):
-            for q1 in range(q0 + 1, self.num_qubits):
+        for q0 in range(self.circuit.num_qubits):
+            for q1 in range(q0 + 1, self.circuit.num_qubits):
                 if variables[q0]["a"] == 1 and variables[q1]["a"] == 1:
                     if variables[q0]["x"] == variables[q1]["x"]:
                         if variables[q0]["c"] < variables[q1]["c"]:
@@ -447,7 +480,14 @@ class DPQA_Simple:
         self,
         t: Sequence[Any],
     ):
-        raise NotImplementedError
+        """ Enforce gates that depend on each other to be in order """
+
+        for (t_g0, gate0), (t_g1, gate1) in combinations(zip(t, self.circuit.gates), 2):
+            if gate0 in self.circuit.dag.predecessors(gate1):
+                self.dpqa.add(t_g0 < t_g1)
+
+            elif gate1 in self.circuit.dag.predecessors(gate0):
+                (self.dpqa).add(t_g1 < t_g0)
 
     def constraint_connectivity(
         self,
@@ -473,7 +513,7 @@ class DPQA_Simple:
         y: Sequence[Sequence[Any]],
     ):
         # TODO: Not right
-        for q0, q1 in combinations(range(self.num_qubits), r=2):
+        for q0, q1 in combinations(range(self.circuit.num_qubits), r=2):
             for s in range(1, num_stage):
                 if (q0, q1) in self.gates or (q1, q0) in self.gates:
                     (self.dpqa).add(Or(x[q0][s] != x[q1][s], y[q0][s] != y[q1][s]))
@@ -492,17 +532,19 @@ class DPQA_Simple:
         r: Sequence[Sequence[Any]],
         x: Sequence[Sequence[Any]],
         y: Sequence[Sequence[Any]],
-    ):
-        # define the scheduling variables of gates, t. Return t
-        # add the constraints related to the gates to execute
+    ) -> List[Int]:
+        """define thebscheduling variables of gates, t. Return t
+         add the constraints related to the gates to execute
+         Done
+         """
 
-        num_gate = len(self.gates)
+        num_gate = self.circuit.num_gates
         t = [Int(f"t_g{g}") for g in range(num_gate)]
 
         self.constraint_aod_order_from_prev(x, y, c, r)
-        for g in range(num_gate):
-            (self.dpqa).add(t[g] < num_stage)
-            (self.dpqa).add(t[g] >= 0)
+        for t_g in t:
+            (self.dpqa).add(t_g < num_stage)
+            (self.dpqa).add(t_g >= 0)
 
         self.constraint_dependency_collision(t)
         self.constraint_connectivity(num_gate, num_stage, t, x, y)
@@ -591,7 +633,7 @@ class DPQA_Simple:
             print(f"        stage {real_s}:")
         layer = {}
         layer["qubits"] = []
-        for q in range(self.num_qubits):
+        for q in range(self.circuit.num_qubits):
             layer["qubits"].append(
                 {
                     "id": q,
@@ -638,7 +680,7 @@ class DPQA_Simple:
             if s == 0 and self.result_json["layers"]:
                 # if there is a 'previous last stage' and we're at the first
                 # stage of the partial solution, we write over the last a/c/r's
-                for q in range(self.num_qubits):
+                for q in range(self.circuit.num_qubits):
                     self.result_json["layers"][-1]["qubits"][q]["a"] = (
                         1 if is_true(model[a[q][s]]) else 0
                     )
@@ -681,13 +723,13 @@ class DPQA_Simple:
         """default strategy for hybrid solving: if n_q <30, use optimal solving
         i.e., optimal_ratio=1 with no transfer; if n_q >= 30, last 5% optimal"""
         if not self.settings.optimal_ratio:
-            self.settings.optimal_ratio = 1 if self.num_qubits < 30 else 0.05
-        if self.settings.optimal_ratio == 1 and self.num_qubits < 30:
+            self.settings.optimal_ratio = 1 if self.circuit.num_qubits < 30 else 0.05
+        if self.settings.optimal_ratio == 1 and self.circuit.num_qubits < 30:
             self.settings.no_transfer = True
 
     def solve_greedy(self, step: int):
         print(f"greedy solving with {step} step")
-        a, c, r, x, y = self.solver_init(step + 1)
+        a, c, r, x, y = self._solver_init(step + 1)
         total_g_q = len(self.gates)
         t_curr = 1
 
@@ -727,10 +769,13 @@ class DPQA_Simple:
     def solve_optimal(self, step: int):
         """optimal solving with step steps"""
 
-        print(f"optimal solving with {step} step")
-        bound_gate = len(self.gates)
+        if self.circuit is None:
+            raise ValueError("circuit is not set")
 
-        a, c, r, x, y = self.solver_init(step + 1)
+        print(f"optimal solving with {step} step")
+        bound_gate = self.circuit.num_gates
+
+        a, c, r, x, y = self._solver_init(step + 1)
         t = self.constraint_gate_batch(step + 1, c, r, x, y)
         self.constraint_gate_card(bound_gate, step + 1, t)
 
@@ -739,10 +784,10 @@ class DPQA_Simple:
         while not solved_batch_gates:
             print(f"    no solution, step={step} too small")
             step += 1
-            a, c, r, x, y = self.solver_init(step + 1)  # self.dpqa is cleaned
+            a, c, r, x, y = self._solver_init(step + 1)  # self.dpqa is cleaned
             t = self.constraint_gate_batch(step + 1, c, r, x, y)
-            if self.settings.verbose:
-                print(self.gates)
+            # if self.settings.verbose:
+            #     print(self.gates)
             self.constraint_gate_card(bound_gate, step + 1, t)
 
             solved_batch_gates = (self.dpqa).check() == sat
@@ -750,15 +795,18 @@ class DPQA_Simple:
         print(f"    found solution with {bound_gate} gates in {step} step")
         self.process_partial_solution(step + 1, a, c, r, x, y, t)
 
-    def solve(self, save_results: bool = True):
+    def solve(self, optimal: bool = False, save_results: bool = True):
         self.write_settings_json()
         t_s = time.time()
         step = 1  # compile for 1 step, or 2 stages each time
-        total_g_q = len(self.gates)
+        total_g_q = self.circuit.num_gates
 
-        self.solve_greedy(step)
-        if len(self.gates) > 0:
-            print(f"final {len(self.gates)/total_g_q*100} percent")
+        if not optimal:
+            self.solve_greedy(step)
+            if len(self.gates) > 0:
+                print(f"final {len(self.gates)/total_g_q*100} percent")
+                self.solve_optimal(step)
+        else:
             self.solve_optimal(step)
 
         self.result_json["timestamp"] = str(time.time())
@@ -770,3 +818,15 @@ class DPQA_Simple:
             path = self.settings.directory + f"{self.result_json['name']}.json"
             with open(path, "w", encoding="utf-8") as file:
                 json.dump(self.result_json, file)
+
+    def compile(self, circuit: QuantumCircuit) -> dict:
+        self.circuit = Circuit.from_qiskit_circuit(circuit)
+
+        # for graph state circuit
+        self.gate_index = {}
+        for i in range(self.circuit.num_qubits):
+            for j in range(i+1, self.circuit.num_qubits):
+                self.gate_index[(i, j)] = -1
+        for i in range(self.circuit.num_gates):
+            self.gate_index[self.g_q[i]] = i
+        self.gate_index_original = self.gate_index
