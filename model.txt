@@ -1,0 +1,1146 @@
+x_q0_t1 >= 0
+x_q0_t1 < 16
+y_q0_t1 >= 0
+y_q0_t1 < 16
+x_q0_t2 >= 0
+x_q0_t2 < 16
+y_q0_t2 >= 0
+y_q0_t2 < 16
+x_q0_t3 >= 0
+x_q0_t3 < 16
+y_q0_t3 >= 0
+y_q0_t3 < 16
+c_q0_t0 >= 0
+c_q0_t0 < 16
+r_q0_t0 >= 0
+r_q0_t0 < 16
+c_q0_t1 >= 0
+c_q0_t1 < 16
+r_q0_t1 >= 0
+r_q0_t1 < 16
+c_q0_t2 >= 0
+c_q0_t2 < 16
+r_q0_t2 >= 0
+r_q0_t2 < 16
+c_q0_t3 >= 0
+c_q0_t3 < 16
+r_q0_t3 >= 0
+r_q0_t3 < 16
+x_q1_t1 >= 0
+x_q1_t1 < 16
+y_q1_t1 >= 0
+y_q1_t1 < 16
+x_q1_t2 >= 0
+x_q1_t2 < 16
+y_q1_t2 >= 0
+y_q1_t2 < 16
+x_q1_t3 >= 0
+x_q1_t3 < 16
+y_q1_t3 >= 0
+y_q1_t3 < 16
+c_q1_t0 >= 0
+c_q1_t0 < 16
+r_q1_t0 >= 0
+r_q1_t0 < 16
+c_q1_t1 >= 0
+c_q1_t1 < 16
+r_q1_t1 >= 0
+r_q1_t1 < 16
+c_q1_t2 >= 0
+c_q1_t2 < 16
+r_q1_t2 >= 0
+r_q1_t2 < 16
+c_q1_t3 >= 0
+c_q1_t3 < 16
+r_q1_t3 >= 0
+r_q1_t3 < 16
+x_q2_t1 >= 0
+x_q2_t1 < 16
+y_q2_t1 >= 0
+y_q2_t1 < 16
+x_q2_t2 >= 0
+x_q2_t2 < 16
+y_q2_t2 >= 0
+y_q2_t2 < 16
+x_q2_t3 >= 0
+x_q2_t3 < 16
+y_q2_t3 >= 0
+y_q2_t3 < 16
+c_q2_t0 >= 0
+c_q2_t0 < 16
+r_q2_t0 >= 0
+r_q2_t0 < 16
+c_q2_t1 >= 0
+c_q2_t1 < 16
+r_q2_t1 >= 0
+r_q2_t1 < 16
+c_q2_t2 >= 0
+c_q2_t2 < 16
+r_q2_t2 >= 0
+r_q2_t2 < 16
+c_q2_t3 >= 0
+c_q2_t3 < 16
+r_q2_t3 >= 0
+r_q2_t3 < 16
+x_q3_t1 >= 0
+x_q3_t1 < 16
+y_q3_t1 >= 0
+y_q3_t1 < 16
+x_q3_t2 >= 0
+x_q3_t2 < 16
+y_q3_t2 >= 0
+y_q3_t2 < 16
+x_q3_t3 >= 0
+x_q3_t3 < 16
+y_q3_t3 >= 0
+y_q3_t3 < 16
+c_q3_t0 >= 0
+c_q3_t0 < 16
+r_q3_t0 >= 0
+r_q3_t0 < 16
+c_q3_t1 >= 0
+c_q3_t1 < 16
+r_q3_t1 >= 0
+r_q3_t1 < 16
+c_q3_t2 >= 0
+c_q3_t2 < 16
+r_q3_t2 >= 0
+r_q3_t2 < 16
+c_q3_t3 >= 0
+c_q3_t3 < 16
+r_q3_t3 >= 0
+r_q3_t3 < 16
+Implies(Not(a_q0_t0), x_q0_t0 == x_q0_t1)
+Implies(Not(a_q0_t0), y_q0_t0 == y_q0_t1)
+Implies(Not(a_q0_t1), x_q0_t1 == x_q0_t2)
+Implies(Not(a_q0_t1), y_q0_t1 == y_q0_t2)
+Implies(Not(a_q0_t2), x_q0_t2 == x_q0_t3)
+Implies(Not(a_q0_t2), y_q0_t2 == y_q0_t3)
+Implies(Not(a_q1_t0), x_q1_t0 == x_q1_t1)
+Implies(Not(a_q1_t0), y_q1_t0 == y_q1_t1)
+Implies(Not(a_q1_t1), x_q1_t1 == x_q1_t2)
+Implies(Not(a_q1_t1), y_q1_t1 == y_q1_t2)
+Implies(Not(a_q1_t2), x_q1_t2 == x_q1_t3)
+Implies(Not(a_q1_t2), y_q1_t2 == y_q1_t3)
+Implies(Not(a_q2_t0), x_q2_t0 == x_q2_t1)
+Implies(Not(a_q2_t0), y_q2_t0 == y_q2_t1)
+Implies(Not(a_q2_t1), x_q2_t1 == x_q2_t2)
+Implies(Not(a_q2_t1), y_q2_t1 == y_q2_t2)
+Implies(Not(a_q2_t2), x_q2_t2 == x_q2_t3)
+Implies(Not(a_q2_t2), y_q2_t2 == y_q2_t3)
+Implies(Not(a_q3_t0), x_q3_t0 == x_q3_t1)
+Implies(Not(a_q3_t0), y_q3_t0 == y_q3_t1)
+Implies(Not(a_q3_t1), x_q3_t1 == x_q3_t2)
+Implies(Not(a_q3_t1), y_q3_t1 == y_q3_t2)
+Implies(Not(a_q3_t2), x_q3_t2 == x_q3_t3)
+Implies(Not(a_q3_t2), y_q3_t2 == y_q3_t3)
+Implies(a_q0_t0, c_q0_t1 == c_q0_t0)
+Implies(a_q0_t0, r_q0_t1 == r_q0_t0)
+Implies(a_q0_t1, c_q0_t2 == c_q0_t1)
+Implies(a_q0_t1, r_q0_t2 == r_q0_t1)
+Implies(a_q0_t2, c_q0_t3 == c_q0_t2)
+Implies(a_q0_t2, r_q0_t3 == r_q0_t2)
+Implies(a_q1_t0, c_q1_t1 == c_q1_t0)
+Implies(a_q1_t0, r_q1_t1 == r_q1_t0)
+Implies(a_q1_t1, c_q1_t2 == c_q1_t1)
+Implies(a_q1_t1, r_q1_t2 == r_q1_t1)
+Implies(a_q1_t2, c_q1_t3 == c_q1_t2)
+Implies(a_q1_t2, r_q1_t3 == r_q1_t2)
+Implies(a_q2_t0, c_q2_t1 == c_q2_t0)
+Implies(a_q2_t0, r_q2_t1 == r_q2_t0)
+Implies(a_q2_t1, c_q2_t2 == c_q2_t1)
+Implies(a_q2_t1, r_q2_t2 == r_q2_t1)
+Implies(a_q2_t2, c_q2_t3 == c_q2_t2)
+Implies(a_q2_t2, r_q2_t3 == r_q2_t2)
+Implies(a_q3_t0, c_q3_t1 == c_q3_t0)
+Implies(a_q3_t0, r_q3_t1 == r_q3_t0)
+Implies(a_q3_t1, c_q3_t2 == c_q3_t1)
+Implies(a_q3_t1, r_q3_t2 == r_q3_t1)
+Implies(a_q3_t2, c_q3_t3 == c_q3_t2)
+Implies(a_q3_t2, r_q3_t3 == r_q3_t2)
+Implies(And(a_q0_t0, a_q1_t0, c_q0_t0 == c_q1_t0),
+        x_q0_t1 == x_q1_t1)
+Implies(And(a_q0_t0, a_q1_t0, r_q0_t0 == r_q1_t0),
+        y_q0_t1 == y_q1_t1)
+Implies(And(a_q0_t1, a_q1_t1, c_q0_t1 == c_q1_t1),
+        x_q0_t2 == x_q1_t2)
+Implies(And(a_q0_t1, a_q1_t1, r_q0_t1 == r_q1_t1),
+        y_q0_t2 == y_q1_t2)
+Implies(And(a_q0_t2, a_q1_t2, c_q0_t2 == c_q1_t2),
+        x_q0_t3 == x_q1_t3)
+Implies(And(a_q0_t2, a_q1_t2, r_q0_t2 == r_q1_t2),
+        y_q0_t3 == y_q1_t3)
+Implies(And(a_q0_t0, a_q2_t0, c_q0_t0 == c_q2_t0),
+        x_q0_t1 == x_q2_t1)
+Implies(And(a_q0_t0, a_q2_t0, r_q0_t0 == r_q2_t0),
+        y_q0_t1 == y_q2_t1)
+Implies(And(a_q0_t1, a_q2_t1, c_q0_t1 == c_q2_t1),
+        x_q0_t2 == x_q2_t2)
+Implies(And(a_q0_t1, a_q2_t1, r_q0_t1 == r_q2_t1),
+        y_q0_t2 == y_q2_t2)
+Implies(And(a_q0_t2, a_q2_t2, c_q0_t2 == c_q2_t2),
+        x_q0_t3 == x_q2_t3)
+Implies(And(a_q0_t2, a_q2_t2, r_q0_t2 == r_q2_t2),
+        y_q0_t3 == y_q2_t3)
+Implies(And(a_q0_t0, a_q3_t0, c_q0_t0 == c_q3_t0),
+        x_q0_t1 == x_q3_t1)
+Implies(And(a_q0_t0, a_q3_t0, r_q0_t0 == r_q3_t0),
+        y_q0_t1 == y_q3_t1)
+Implies(And(a_q0_t1, a_q3_t1, c_q0_t1 == c_q3_t1),
+        x_q0_t2 == x_q3_t2)
+Implies(And(a_q0_t1, a_q3_t1, r_q0_t1 == r_q3_t1),
+        y_q0_t2 == y_q3_t2)
+Implies(And(a_q0_t2, a_q3_t2, c_q0_t2 == c_q3_t2),
+        x_q0_t3 == x_q3_t3)
+Implies(And(a_q0_t2, a_q3_t2, r_q0_t2 == r_q3_t2),
+        y_q0_t3 == y_q3_t3)
+Implies(And(a_q1_t0, a_q2_t0, c_q1_t0 == c_q2_t0),
+        x_q1_t1 == x_q2_t1)
+Implies(And(a_q1_t0, a_q2_t0, r_q1_t0 == r_q2_t0),
+        y_q1_t1 == y_q2_t1)
+Implies(And(a_q1_t1, a_q2_t1, c_q1_t1 == c_q2_t1),
+        x_q1_t2 == x_q2_t2)
+Implies(And(a_q1_t1, a_q2_t1, r_q1_t1 == r_q2_t1),
+        y_q1_t2 == y_q2_t2)
+Implies(And(a_q1_t2, a_q2_t2, c_q1_t2 == c_q2_t2),
+        x_q1_t3 == x_q2_t3)
+Implies(And(a_q1_t2, a_q2_t2, r_q1_t2 == r_q2_t2),
+        y_q1_t3 == y_q2_t3)
+Implies(And(a_q1_t0, a_q3_t0, c_q1_t0 == c_q3_t0),
+        x_q1_t1 == x_q3_t1)
+Implies(And(a_q1_t0, a_q3_t0, r_q1_t0 == r_q3_t0),
+        y_q1_t1 == y_q3_t1)
+Implies(And(a_q1_t1, a_q3_t1, c_q1_t1 == c_q3_t1),
+        x_q1_t2 == x_q3_t2)
+Implies(And(a_q1_t1, a_q3_t1, r_q1_t1 == r_q3_t1),
+        y_q1_t2 == y_q3_t2)
+Implies(And(a_q1_t2, a_q3_t2, c_q1_t2 == c_q3_t2),
+        x_q1_t3 == x_q3_t3)
+Implies(And(a_q1_t2, a_q3_t2, r_q1_t2 == r_q3_t2),
+        y_q1_t3 == y_q3_t3)
+Implies(And(a_q2_t0, a_q3_t0, c_q2_t0 == c_q3_t0),
+        x_q2_t1 == x_q3_t1)
+Implies(And(a_q2_t0, a_q3_t0, r_q2_t0 == r_q3_t0),
+        y_q2_t1 == y_q3_t1)
+Implies(And(a_q2_t1, a_q3_t1, c_q2_t1 == c_q3_t1),
+        x_q2_t2 == x_q3_t2)
+Implies(And(a_q2_t1, a_q3_t1, r_q2_t1 == r_q3_t1),
+        y_q2_t2 == y_q3_t2)
+Implies(And(a_q2_t2, a_q3_t2, c_q2_t2 == c_q3_t2),
+        x_q2_t3 == x_q3_t3)
+Implies(And(a_q2_t2, a_q3_t2, r_q2_t2 == r_q3_t2),
+        y_q2_t3 == y_q3_t3)
+Implies(And(a_q0_t0, a_q1_t0, c_q0_t0 < c_q1_t0),
+        x_q0_t1 <= x_q1_t1)
+Implies(And(a_q0_t0, a_q1_t0, r_q0_t0 < r_q1_t0),
+        y_q0_t1 <= y_q1_t1)
+Implies(And(a_q0_t1, a_q1_t1, c_q0_t1 < c_q1_t1),
+        x_q0_t2 <= x_q1_t2)
+Implies(And(a_q0_t1, a_q1_t1, r_q0_t1 < r_q1_t1),
+        y_q0_t2 <= y_q1_t2)
+Implies(And(a_q0_t2, a_q1_t2, c_q0_t2 < c_q1_t2),
+        x_q0_t3 <= x_q1_t3)
+Implies(And(a_q0_t2, a_q1_t2, r_q0_t2 < r_q1_t2),
+        y_q0_t3 <= y_q1_t3)
+Implies(And(a_q0_t0, a_q2_t0, c_q0_t0 < c_q2_t0),
+        x_q0_t1 <= x_q2_t1)
+Implies(And(a_q0_t0, a_q2_t0, r_q0_t0 < r_q2_t0),
+        y_q0_t1 <= y_q2_t1)
+Implies(And(a_q0_t1, a_q2_t1, c_q0_t1 < c_q2_t1),
+        x_q0_t2 <= x_q2_t2)
+Implies(And(a_q0_t1, a_q2_t1, r_q0_t1 < r_q2_t1),
+        y_q0_t2 <= y_q2_t2)
+Implies(And(a_q0_t2, a_q2_t2, c_q0_t2 < c_q2_t2),
+        x_q0_t3 <= x_q2_t3)
+Implies(And(a_q0_t2, a_q2_t2, r_q0_t2 < r_q2_t2),
+        y_q0_t3 <= y_q2_t3)
+Implies(And(a_q0_t0, a_q3_t0, c_q0_t0 < c_q3_t0),
+        x_q0_t1 <= x_q3_t1)
+Implies(And(a_q0_t0, a_q3_t0, r_q0_t0 < r_q3_t0),
+        y_q0_t1 <= y_q3_t1)
+Implies(And(a_q0_t1, a_q3_t1, c_q0_t1 < c_q3_t1),
+        x_q0_t2 <= x_q3_t2)
+Implies(And(a_q0_t1, a_q3_t1, r_q0_t1 < r_q3_t1),
+        y_q0_t2 <= y_q3_t2)
+Implies(And(a_q0_t2, a_q3_t2, c_q0_t2 < c_q3_t2),
+        x_q0_t3 <= x_q3_t3)
+Implies(And(a_q0_t2, a_q3_t2, r_q0_t2 < r_q3_t2),
+        y_q0_t3 <= y_q3_t3)
+Implies(And(a_q1_t0, a_q0_t0, c_q1_t0 < c_q0_t0),
+        x_q1_t1 <= x_q0_t1)
+Implies(And(a_q1_t0, a_q0_t0, r_q1_t0 < r_q0_t0),
+        y_q1_t1 <= y_q0_t1)
+Implies(And(a_q1_t1, a_q0_t1, c_q1_t1 < c_q0_t1),
+        x_q1_t2 <= x_q0_t2)
+Implies(And(a_q1_t1, a_q0_t1, r_q1_t1 < r_q0_t1),
+        y_q1_t2 <= y_q0_t2)
+Implies(And(a_q1_t2, a_q0_t2, c_q1_t2 < c_q0_t2),
+        x_q1_t3 <= x_q0_t3)
+Implies(And(a_q1_t2, a_q0_t2, r_q1_t2 < r_q0_t2),
+        y_q1_t3 <= y_q0_t3)
+Implies(And(a_q1_t0, a_q2_t0, c_q1_t0 < c_q2_t0),
+        x_q1_t1 <= x_q2_t1)
+Implies(And(a_q1_t0, a_q2_t0, r_q1_t0 < r_q2_t0),
+        y_q1_t1 <= y_q2_t1)
+Implies(And(a_q1_t1, a_q2_t1, c_q1_t1 < c_q2_t1),
+        x_q1_t2 <= x_q2_t2)
+Implies(And(a_q1_t1, a_q2_t1, r_q1_t1 < r_q2_t1),
+        y_q1_t2 <= y_q2_t2)
+Implies(And(a_q1_t2, a_q2_t2, c_q1_t2 < c_q2_t2),
+        x_q1_t3 <= x_q2_t3)
+Implies(And(a_q1_t2, a_q2_t2, r_q1_t2 < r_q2_t2),
+        y_q1_t3 <= y_q2_t3)
+Implies(And(a_q1_t0, a_q3_t0, c_q1_t0 < c_q3_t0),
+        x_q1_t1 <= x_q3_t1)
+Implies(And(a_q1_t0, a_q3_t0, r_q1_t0 < r_q3_t0),
+        y_q1_t1 <= y_q3_t1)
+Implies(And(a_q1_t1, a_q3_t1, c_q1_t1 < c_q3_t1),
+        x_q1_t2 <= x_q3_t2)
+Implies(And(a_q1_t1, a_q3_t1, r_q1_t1 < r_q3_t1),
+        y_q1_t2 <= y_q3_t2)
+Implies(And(a_q1_t2, a_q3_t2, c_q1_t2 < c_q3_t2),
+        x_q1_t3 <= x_q3_t3)
+Implies(And(a_q1_t2, a_q3_t2, r_q1_t2 < r_q3_t2),
+        y_q1_t3 <= y_q3_t3)
+Implies(And(a_q2_t0, a_q0_t0, c_q2_t0 < c_q0_t0),
+        x_q2_t1 <= x_q0_t1)
+Implies(And(a_q2_t0, a_q0_t0, r_q2_t0 < r_q0_t0),
+        y_q2_t1 <= y_q0_t1)
+Implies(And(a_q2_t1, a_q0_t1, c_q2_t1 < c_q0_t1),
+        x_q2_t2 <= x_q0_t2)
+Implies(And(a_q2_t1, a_q0_t1, r_q2_t1 < r_q0_t1),
+        y_q2_t2 <= y_q0_t2)
+Implies(And(a_q2_t2, a_q0_t2, c_q2_t2 < c_q0_t2),
+        x_q2_t3 <= x_q0_t3)
+Implies(And(a_q2_t2, a_q0_t2, r_q2_t2 < r_q0_t2),
+        y_q2_t3 <= y_q0_t3)
+Implies(And(a_q2_t0, a_q1_t0, c_q2_t0 < c_q1_t0),
+        x_q2_t1 <= x_q1_t1)
+Implies(And(a_q2_t0, a_q1_t0, r_q2_t0 < r_q1_t0),
+        y_q2_t1 <= y_q1_t1)
+Implies(And(a_q2_t1, a_q1_t1, c_q2_t1 < c_q1_t1),
+        x_q2_t2 <= x_q1_t2)
+Implies(And(a_q2_t1, a_q1_t1, r_q2_t1 < r_q1_t1),
+        y_q2_t2 <= y_q1_t2)
+Implies(And(a_q2_t2, a_q1_t2, c_q2_t2 < c_q1_t2),
+        x_q2_t3 <= x_q1_t3)
+Implies(And(a_q2_t2, a_q1_t2, r_q2_t2 < r_q1_t2),
+        y_q2_t3 <= y_q1_t3)
+Implies(And(a_q2_t0, a_q3_t0, c_q2_t0 < c_q3_t0),
+        x_q2_t1 <= x_q3_t1)
+Implies(And(a_q2_t0, a_q3_t0, r_q2_t0 < r_q3_t0),
+        y_q2_t1 <= y_q3_t1)
+Implies(And(a_q2_t1, a_q3_t1, c_q2_t1 < c_q3_t1),
+        x_q2_t2 <= x_q3_t2)
+Implies(And(a_q2_t1, a_q3_t1, r_q2_t1 < r_q3_t1),
+        y_q2_t2 <= y_q3_t2)
+Implies(And(a_q2_t2, a_q3_t2, c_q2_t2 < c_q3_t2),
+        x_q2_t3 <= x_q3_t3)
+Implies(And(a_q2_t2, a_q3_t2, r_q2_t2 < r_q3_t2),
+        y_q2_t3 <= y_q3_t3)
+Implies(And(a_q3_t0, a_q0_t0, c_q3_t0 < c_q0_t0),
+        x_q3_t1 <= x_q0_t1)
+Implies(And(a_q3_t0, a_q0_t0, r_q3_t0 < r_q0_t0),
+        y_q3_t1 <= y_q0_t1)
+Implies(And(a_q3_t1, a_q0_t1, c_q3_t1 < c_q0_t1),
+        x_q3_t2 <= x_q0_t2)
+Implies(And(a_q3_t1, a_q0_t1, r_q3_t1 < r_q0_t1),
+        y_q3_t2 <= y_q0_t2)
+Implies(And(a_q3_t2, a_q0_t2, c_q3_t2 < c_q0_t2),
+        x_q3_t3 <= x_q0_t3)
+Implies(And(a_q3_t2, a_q0_t2, r_q3_t2 < r_q0_t2),
+        y_q3_t3 <= y_q0_t3)
+Implies(And(a_q3_t0, a_q1_t0, c_q3_t0 < c_q1_t0),
+        x_q3_t1 <= x_q1_t1)
+Implies(And(a_q3_t0, a_q1_t0, r_q3_t0 < r_q1_t0),
+        y_q3_t1 <= y_q1_t1)
+Implies(And(a_q3_t1, a_q1_t1, c_q3_t1 < c_q1_t1),
+        x_q3_t2 <= x_q1_t2)
+Implies(And(a_q3_t1, a_q1_t1, r_q3_t1 < r_q1_t1),
+        y_q3_t2 <= y_q1_t2)
+Implies(And(a_q3_t2, a_q1_t2, c_q3_t2 < c_q1_t2),
+        x_q3_t3 <= x_q1_t3)
+Implies(And(a_q3_t2, a_q1_t2, r_q3_t2 < r_q1_t2),
+        y_q3_t3 <= y_q1_t3)
+Implies(And(a_q3_t0, a_q2_t0, c_q3_t0 < c_q2_t0),
+        x_q3_t1 <= x_q2_t1)
+Implies(And(a_q3_t0, a_q2_t0, r_q3_t0 < r_q2_t0),
+        y_q3_t1 <= y_q2_t1)
+Implies(And(a_q3_t1, a_q2_t1, c_q3_t1 < c_q2_t1),
+        x_q3_t2 <= x_q2_t2)
+Implies(And(a_q3_t1, a_q2_t1, r_q3_t1 < r_q2_t1),
+        y_q3_t2 <= y_q2_t2)
+Implies(And(a_q3_t2, a_q2_t2, c_q3_t2 < c_q2_t2),
+        x_q3_t3 <= x_q2_t3)
+Implies(And(a_q3_t2, a_q2_t2, r_q3_t2 < r_q2_t2),
+        y_q3_t3 <= y_q2_t3)
+Implies(And(a_q0_t0, a_q1_t0, x_q0_t0 < x_q1_t0),
+        c_q0_t0 < c_q1_t0)
+Implies(And(a_q0_t0, a_q1_t0, y_q0_t0 < y_q1_t0),
+        r_q0_t0 < r_q1_t0)
+Implies(And(a_q0_t1, a_q1_t1, x_q0_t1 < x_q1_t1),
+        c_q0_t1 < c_q1_t1)
+Implies(And(a_q0_t1, a_q1_t1, y_q0_t1 < y_q1_t1),
+        r_q0_t1 < r_q1_t1)
+Implies(And(a_q0_t2, a_q1_t2, x_q0_t2 < x_q1_t2),
+        c_q0_t2 < c_q1_t2)
+Implies(And(a_q0_t2, a_q1_t2, y_q0_t2 < y_q1_t2),
+        r_q0_t2 < r_q1_t2)
+Implies(And(a_q0_t3, a_q1_t3, x_q0_t3 < x_q1_t3),
+        c_q0_t3 < c_q1_t3)
+Implies(And(a_q0_t3, a_q1_t3, y_q0_t3 < y_q1_t3),
+        r_q0_t3 < r_q1_t3)
+Implies(And(a_q0_t0, a_q2_t0, x_q0_t0 < x_q2_t0),
+        c_q0_t0 < c_q2_t0)
+Implies(And(a_q0_t0, a_q2_t0, y_q0_t0 < y_q2_t0),
+        r_q0_t0 < r_q2_t0)
+Implies(And(a_q0_t1, a_q2_t1, x_q0_t1 < x_q2_t1),
+        c_q0_t1 < c_q2_t1)
+Implies(And(a_q0_t1, a_q2_t1, y_q0_t1 < y_q2_t1),
+        r_q0_t1 < r_q2_t1)
+Implies(And(a_q0_t2, a_q2_t2, x_q0_t2 < x_q2_t2),
+        c_q0_t2 < c_q2_t2)
+Implies(And(a_q0_t2, a_q2_t2, y_q0_t2 < y_q2_t2),
+        r_q0_t2 < r_q2_t2)
+Implies(And(a_q0_t3, a_q2_t3, x_q0_t3 < x_q2_t3),
+        c_q0_t3 < c_q2_t3)
+Implies(And(a_q0_t3, a_q2_t3, y_q0_t3 < y_q2_t3),
+        r_q0_t3 < r_q2_t3)
+Implies(And(a_q0_t0, a_q3_t0, x_q0_t0 < x_q3_t0),
+        c_q0_t0 < c_q3_t0)
+Implies(And(a_q0_t0, a_q3_t0, y_q0_t0 < y_q3_t0),
+        r_q0_t0 < r_q3_t0)
+Implies(And(a_q0_t1, a_q3_t1, x_q0_t1 < x_q3_t1),
+        c_q0_t1 < c_q3_t1)
+Implies(And(a_q0_t1, a_q3_t1, y_q0_t1 < y_q3_t1),
+        r_q0_t1 < r_q3_t1)
+Implies(And(a_q0_t2, a_q3_t2, x_q0_t2 < x_q3_t2),
+        c_q0_t2 < c_q3_t2)
+Implies(And(a_q0_t2, a_q3_t2, y_q0_t2 < y_q3_t2),
+        r_q0_t2 < r_q3_t2)
+Implies(And(a_q0_t3, a_q3_t3, x_q0_t3 < x_q3_t3),
+        c_q0_t3 < c_q3_t3)
+Implies(And(a_q0_t3, a_q3_t3, y_q0_t3 < y_q3_t3),
+        r_q0_t3 < r_q3_t3)
+Implies(And(a_q1_t0, a_q0_t0, x_q1_t0 < x_q0_t0),
+        c_q1_t0 < c_q0_t0)
+Implies(And(a_q1_t0, a_q0_t0, y_q1_t0 < y_q0_t0),
+        r_q1_t0 < r_q0_t0)
+Implies(And(a_q1_t1, a_q0_t1, x_q1_t1 < x_q0_t1),
+        c_q1_t1 < c_q0_t1)
+Implies(And(a_q1_t1, a_q0_t1, y_q1_t1 < y_q0_t1),
+        r_q1_t1 < r_q0_t1)
+Implies(And(a_q1_t2, a_q0_t2, x_q1_t2 < x_q0_t2),
+        c_q1_t2 < c_q0_t2)
+Implies(And(a_q1_t2, a_q0_t2, y_q1_t2 < y_q0_t2),
+        r_q1_t2 < r_q0_t2)
+Implies(And(a_q1_t3, a_q0_t3, x_q1_t3 < x_q0_t3),
+        c_q1_t3 < c_q0_t3)
+Implies(And(a_q1_t3, a_q0_t3, y_q1_t3 < y_q0_t3),
+        r_q1_t3 < r_q0_t3)
+Implies(And(a_q1_t0, a_q2_t0, x_q1_t0 < x_q2_t0),
+        c_q1_t0 < c_q2_t0)
+Implies(And(a_q1_t0, a_q2_t0, y_q1_t0 < y_q2_t0),
+        r_q1_t0 < r_q2_t0)
+Implies(And(a_q1_t1, a_q2_t1, x_q1_t1 < x_q2_t1),
+        c_q1_t1 < c_q2_t1)
+Implies(And(a_q1_t1, a_q2_t1, y_q1_t1 < y_q2_t1),
+        r_q1_t1 < r_q2_t1)
+Implies(And(a_q1_t2, a_q2_t2, x_q1_t2 < x_q2_t2),
+        c_q1_t2 < c_q2_t2)
+Implies(And(a_q1_t2, a_q2_t2, y_q1_t2 < y_q2_t2),
+        r_q1_t2 < r_q2_t2)
+Implies(And(a_q1_t3, a_q2_t3, x_q1_t3 < x_q2_t3),
+        c_q1_t3 < c_q2_t3)
+Implies(And(a_q1_t3, a_q2_t3, y_q1_t3 < y_q2_t3),
+        r_q1_t3 < r_q2_t3)
+Implies(And(a_q1_t0, a_q3_t0, x_q1_t0 < x_q3_t0),
+        c_q1_t0 < c_q3_t0)
+Implies(And(a_q1_t0, a_q3_t0, y_q1_t0 < y_q3_t0),
+        r_q1_t0 < r_q3_t0)
+Implies(And(a_q1_t1, a_q3_t1, x_q1_t1 < x_q3_t1),
+        c_q1_t1 < c_q3_t1)
+Implies(And(a_q1_t1, a_q3_t1, y_q1_t1 < y_q3_t1),
+        r_q1_t1 < r_q3_t1)
+Implies(And(a_q1_t2, a_q3_t2, x_q1_t2 < x_q3_t2),
+        c_q1_t2 < c_q3_t2)
+Implies(And(a_q1_t2, a_q3_t2, y_q1_t2 < y_q3_t2),
+        r_q1_t2 < r_q3_t2)
+Implies(And(a_q1_t3, a_q3_t3, x_q1_t3 < x_q3_t3),
+        c_q1_t3 < c_q3_t3)
+Implies(And(a_q1_t3, a_q3_t3, y_q1_t3 < y_q3_t3),
+        r_q1_t3 < r_q3_t3)
+Implies(And(a_q2_t0, a_q0_t0, x_q2_t0 < x_q0_t0),
+        c_q2_t0 < c_q0_t0)
+Implies(And(a_q2_t0, a_q0_t0, y_q2_t0 < y_q0_t0),
+        r_q2_t0 < r_q0_t0)
+Implies(And(a_q2_t1, a_q0_t1, x_q2_t1 < x_q0_t1),
+        c_q2_t1 < c_q0_t1)
+Implies(And(a_q2_t1, a_q0_t1, y_q2_t1 < y_q0_t1),
+        r_q2_t1 < r_q0_t1)
+Implies(And(a_q2_t2, a_q0_t2, x_q2_t2 < x_q0_t2),
+        c_q2_t2 < c_q0_t2)
+Implies(And(a_q2_t2, a_q0_t2, y_q2_t2 < y_q0_t2),
+        r_q2_t2 < r_q0_t2)
+Implies(And(a_q2_t3, a_q0_t3, x_q2_t3 < x_q0_t3),
+        c_q2_t3 < c_q0_t3)
+Implies(And(a_q2_t3, a_q0_t3, y_q2_t3 < y_q0_t3),
+        r_q2_t3 < r_q0_t3)
+Implies(And(a_q2_t0, a_q1_t0, x_q2_t0 < x_q1_t0),
+        c_q2_t0 < c_q1_t0)
+Implies(And(a_q2_t0, a_q1_t0, y_q2_t0 < y_q1_t0),
+        r_q2_t0 < r_q1_t0)
+Implies(And(a_q2_t1, a_q1_t1, x_q2_t1 < x_q1_t1),
+        c_q2_t1 < c_q1_t1)
+Implies(And(a_q2_t1, a_q1_t1, y_q2_t1 < y_q1_t1),
+        r_q2_t1 < r_q1_t1)
+Implies(And(a_q2_t2, a_q1_t2, x_q2_t2 < x_q1_t2),
+        c_q2_t2 < c_q1_t2)
+Implies(And(a_q2_t2, a_q1_t2, y_q2_t2 < y_q1_t2),
+        r_q2_t2 < r_q1_t2)
+Implies(And(a_q2_t3, a_q1_t3, x_q2_t3 < x_q1_t3),
+        c_q2_t3 < c_q1_t3)
+Implies(And(a_q2_t3, a_q1_t3, y_q2_t3 < y_q1_t3),
+        r_q2_t3 < r_q1_t3)
+Implies(And(a_q2_t0, a_q3_t0, x_q2_t0 < x_q3_t0),
+        c_q2_t0 < c_q3_t0)
+Implies(And(a_q2_t0, a_q3_t0, y_q2_t0 < y_q3_t0),
+        r_q2_t0 < r_q3_t0)
+Implies(And(a_q2_t1, a_q3_t1, x_q2_t1 < x_q3_t1),
+        c_q2_t1 < c_q3_t1)
+Implies(And(a_q2_t1, a_q3_t1, y_q2_t1 < y_q3_t1),
+        r_q2_t1 < r_q3_t1)
+Implies(And(a_q2_t2, a_q3_t2, x_q2_t2 < x_q3_t2),
+        c_q2_t2 < c_q3_t2)
+Implies(And(a_q2_t2, a_q3_t2, y_q2_t2 < y_q3_t2),
+        r_q2_t2 < r_q3_t2)
+Implies(And(a_q2_t3, a_q3_t3, x_q2_t3 < x_q3_t3),
+        c_q2_t3 < c_q3_t3)
+Implies(And(a_q2_t3, a_q3_t3, y_q2_t3 < y_q3_t3),
+        r_q2_t3 < r_q3_t3)
+Implies(And(a_q3_t0, a_q0_t0, x_q3_t0 < x_q0_t0),
+        c_q3_t0 < c_q0_t0)
+Implies(And(a_q3_t0, a_q0_t0, y_q3_t0 < y_q0_t0),
+        r_q3_t0 < r_q0_t0)
+Implies(And(a_q3_t1, a_q0_t1, x_q3_t1 < x_q0_t1),
+        c_q3_t1 < c_q0_t1)
+Implies(And(a_q3_t1, a_q0_t1, y_q3_t1 < y_q0_t1),
+        r_q3_t1 < r_q0_t1)
+Implies(And(a_q3_t2, a_q0_t2, x_q3_t2 < x_q0_t2),
+        c_q3_t2 < c_q0_t2)
+Implies(And(a_q3_t2, a_q0_t2, y_q3_t2 < y_q0_t2),
+        r_q3_t2 < r_q0_t2)
+Implies(And(a_q3_t3, a_q0_t3, x_q3_t3 < x_q0_t3),
+        c_q3_t3 < c_q0_t3)
+Implies(And(a_q3_t3, a_q0_t3, y_q3_t3 < y_q0_t3),
+        r_q3_t3 < r_q0_t3)
+Implies(And(a_q3_t0, a_q1_t0, x_q3_t0 < x_q1_t0),
+        c_q3_t0 < c_q1_t0)
+Implies(And(a_q3_t0, a_q1_t0, y_q3_t0 < y_q1_t0),
+        r_q3_t0 < r_q1_t0)
+Implies(And(a_q3_t1, a_q1_t1, x_q3_t1 < x_q1_t1),
+        c_q3_t1 < c_q1_t1)
+Implies(And(a_q3_t1, a_q1_t1, y_q3_t1 < y_q1_t1),
+        r_q3_t1 < r_q1_t1)
+Implies(And(a_q3_t2, a_q1_t2, x_q3_t2 < x_q1_t2),
+        c_q3_t2 < c_q1_t2)
+Implies(And(a_q3_t2, a_q1_t2, y_q3_t2 < y_q1_t2),
+        r_q3_t2 < r_q1_t2)
+Implies(And(a_q3_t3, a_q1_t3, x_q3_t3 < x_q1_t3),
+        c_q3_t3 < c_q1_t3)
+Implies(And(a_q3_t3, a_q1_t3, y_q3_t3 < y_q1_t3),
+        r_q3_t3 < r_q1_t3)
+Implies(And(a_q3_t0, a_q2_t0, x_q3_t0 < x_q2_t0),
+        c_q3_t0 < c_q2_t0)
+Implies(And(a_q3_t0, a_q2_t0, y_q3_t0 < y_q2_t0),
+        r_q3_t0 < r_q2_t0)
+Implies(And(a_q3_t1, a_q2_t1, x_q3_t1 < x_q2_t1),
+        c_q3_t1 < c_q2_t1)
+Implies(And(a_q3_t1, a_q2_t1, y_q3_t1 < y_q2_t1),
+        r_q3_t1 < r_q2_t1)
+Implies(And(a_q3_t2, a_q2_t2, x_q3_t2 < x_q2_t2),
+        c_q3_t2 < c_q2_t2)
+Implies(And(a_q3_t2, a_q2_t2, y_q3_t2 < y_q2_t2),
+        r_q3_t2 < r_q2_t2)
+Implies(And(a_q3_t3, a_q2_t3, x_q3_t3 < x_q2_t3),
+        c_q3_t3 < c_q2_t3)
+Implies(And(a_q3_t3, a_q2_t3, y_q3_t3 < y_q2_t3),
+        r_q3_t3 < r_q2_t3)
+Implies(And(a_q0_t0, a_q1_t0, c_q0_t0 - c_q1_t0 > 2),
+        x_q0_t1 > x_q1_t1)
+Implies(And(a_q0_t0, a_q1_t0, r_q0_t0 - r_q1_t0 > 2),
+        y_q0_t1 > y_q1_t1)
+Implies(And(a_q0_t1, a_q1_t1, c_q0_t1 - c_q1_t1 > 2),
+        x_q0_t2 > x_q1_t2)
+Implies(And(a_q0_t1, a_q1_t1, r_q0_t1 - r_q1_t1 > 2),
+        y_q0_t2 > y_q1_t2)
+Implies(And(a_q0_t2, a_q1_t2, c_q0_t2 - c_q1_t2 > 2),
+        x_q0_t3 > x_q1_t3)
+Implies(And(a_q0_t2, a_q1_t2, r_q0_t2 - r_q1_t2 > 2),
+        y_q0_t3 > y_q1_t3)
+Implies(And(a_q0_t0, a_q2_t0, c_q0_t0 - c_q2_t0 > 2),
+        x_q0_t1 > x_q2_t1)
+Implies(And(a_q0_t0, a_q2_t0, r_q0_t0 - r_q2_t0 > 2),
+        y_q0_t1 > y_q2_t1)
+Implies(And(a_q0_t1, a_q2_t1, c_q0_t1 - c_q2_t1 > 2),
+        x_q0_t2 > x_q2_t2)
+Implies(And(a_q0_t1, a_q2_t1, r_q0_t1 - r_q2_t1 > 2),
+        y_q0_t2 > y_q2_t2)
+Implies(And(a_q0_t2, a_q2_t2, c_q0_t2 - c_q2_t2 > 2),
+        x_q0_t3 > x_q2_t3)
+Implies(And(a_q0_t2, a_q2_t2, r_q0_t2 - r_q2_t2 > 2),
+        y_q0_t3 > y_q2_t3)
+Implies(And(a_q0_t0, a_q3_t0, c_q0_t0 - c_q3_t0 > 2),
+        x_q0_t1 > x_q3_t1)
+Implies(And(a_q0_t0, a_q3_t0, r_q0_t0 - r_q3_t0 > 2),
+        y_q0_t1 > y_q3_t1)
+Implies(And(a_q0_t1, a_q3_t1, c_q0_t1 - c_q3_t1 > 2),
+        x_q0_t2 > x_q3_t2)
+Implies(And(a_q0_t1, a_q3_t1, r_q0_t1 - r_q3_t1 > 2),
+        y_q0_t2 > y_q3_t2)
+Implies(And(a_q0_t2, a_q3_t2, c_q0_t2 - c_q3_t2 > 2),
+        x_q0_t3 > x_q3_t3)
+Implies(And(a_q0_t2, a_q3_t2, r_q0_t2 - r_q3_t2 > 2),
+        y_q0_t3 > y_q3_t3)
+Implies(And(a_q1_t0, a_q0_t0, c_q1_t0 - c_q0_t0 > 2),
+        x_q1_t1 > x_q0_t1)
+Implies(And(a_q1_t0, a_q0_t0, r_q1_t0 - r_q0_t0 > 2),
+        y_q1_t1 > y_q0_t1)
+Implies(And(a_q1_t1, a_q0_t1, c_q1_t1 - c_q0_t1 > 2),
+        x_q1_t2 > x_q0_t2)
+Implies(And(a_q1_t1, a_q0_t1, r_q1_t1 - r_q0_t1 > 2),
+        y_q1_t2 > y_q0_t2)
+Implies(And(a_q1_t2, a_q0_t2, c_q1_t2 - c_q0_t2 > 2),
+        x_q1_t3 > x_q0_t3)
+Implies(And(a_q1_t2, a_q0_t2, r_q1_t2 - r_q0_t2 > 2),
+        y_q1_t3 > y_q0_t3)
+Implies(And(a_q1_t0, a_q2_t0, c_q1_t0 - c_q2_t0 > 2),
+        x_q1_t1 > x_q2_t1)
+Implies(And(a_q1_t0, a_q2_t0, r_q1_t0 - r_q2_t0 > 2),
+        y_q1_t1 > y_q2_t1)
+Implies(And(a_q1_t1, a_q2_t1, c_q1_t1 - c_q2_t1 > 2),
+        x_q1_t2 > x_q2_t2)
+Implies(And(a_q1_t1, a_q2_t1, r_q1_t1 - r_q2_t1 > 2),
+        y_q1_t2 > y_q2_t2)
+Implies(And(a_q1_t2, a_q2_t2, c_q1_t2 - c_q2_t2 > 2),
+        x_q1_t3 > x_q2_t3)
+Implies(And(a_q1_t2, a_q2_t2, r_q1_t2 - r_q2_t2 > 2),
+        y_q1_t3 > y_q2_t3)
+Implies(And(a_q1_t0, a_q3_t0, c_q1_t0 - c_q3_t0 > 2),
+        x_q1_t1 > x_q3_t1)
+Implies(And(a_q1_t0, a_q3_t0, r_q1_t0 - r_q3_t0 > 2),
+        y_q1_t1 > y_q3_t1)
+Implies(And(a_q1_t1, a_q3_t1, c_q1_t1 - c_q3_t1 > 2),
+        x_q1_t2 > x_q3_t2)
+Implies(And(a_q1_t1, a_q3_t1, r_q1_t1 - r_q3_t1 > 2),
+        y_q1_t2 > y_q3_t2)
+Implies(And(a_q1_t2, a_q3_t2, c_q1_t2 - c_q3_t2 > 2),
+        x_q1_t3 > x_q3_t3)
+Implies(And(a_q1_t2, a_q3_t2, r_q1_t2 - r_q3_t2 > 2),
+        y_q1_t3 > y_q3_t3)
+Implies(And(a_q2_t0, a_q0_t0, c_q2_t0 - c_q0_t0 > 2),
+        x_q2_t1 > x_q0_t1)
+Implies(And(a_q2_t0, a_q0_t0, r_q2_t0 - r_q0_t0 > 2),
+        y_q2_t1 > y_q0_t1)
+Implies(And(a_q2_t1, a_q0_t1, c_q2_t1 - c_q0_t1 > 2),
+        x_q2_t2 > x_q0_t2)
+Implies(And(a_q2_t1, a_q0_t1, r_q2_t1 - r_q0_t1 > 2),
+        y_q2_t2 > y_q0_t2)
+Implies(And(a_q2_t2, a_q0_t2, c_q2_t2 - c_q0_t2 > 2),
+        x_q2_t3 > x_q0_t3)
+Implies(And(a_q2_t2, a_q0_t2, r_q2_t2 - r_q0_t2 > 2),
+        y_q2_t3 > y_q0_t3)
+Implies(And(a_q2_t0, a_q1_t0, c_q2_t0 - c_q1_t0 > 2),
+        x_q2_t1 > x_q1_t1)
+Implies(And(a_q2_t0, a_q1_t0, r_q2_t0 - r_q1_t0 > 2),
+        y_q2_t1 > y_q1_t1)
+Implies(And(a_q2_t1, a_q1_t1, c_q2_t1 - c_q1_t1 > 2),
+        x_q2_t2 > x_q1_t2)
+Implies(And(a_q2_t1, a_q1_t1, r_q2_t1 - r_q1_t1 > 2),
+        y_q2_t2 > y_q1_t2)
+Implies(And(a_q2_t2, a_q1_t2, c_q2_t2 - c_q1_t2 > 2),
+        x_q2_t3 > x_q1_t3)
+Implies(And(a_q2_t2, a_q1_t2, r_q2_t2 - r_q1_t2 > 2),
+        y_q2_t3 > y_q1_t3)
+Implies(And(a_q2_t0, a_q3_t0, c_q2_t0 - c_q3_t0 > 2),
+        x_q2_t1 > x_q3_t1)
+Implies(And(a_q2_t0, a_q3_t0, r_q2_t0 - r_q3_t0 > 2),
+        y_q2_t1 > y_q3_t1)
+Implies(And(a_q2_t1, a_q3_t1, c_q2_t1 - c_q3_t1 > 2),
+        x_q2_t2 > x_q3_t2)
+Implies(And(a_q2_t1, a_q3_t1, r_q2_t1 - r_q3_t1 > 2),
+        y_q2_t2 > y_q3_t2)
+Implies(And(a_q2_t2, a_q3_t2, c_q2_t2 - c_q3_t2 > 2),
+        x_q2_t3 > x_q3_t3)
+Implies(And(a_q2_t2, a_q3_t2, r_q2_t2 - r_q3_t2 > 2),
+        y_q2_t3 > y_q3_t3)
+Implies(And(a_q3_t0, a_q0_t0, c_q3_t0 - c_q0_t0 > 2),
+        x_q3_t1 > x_q0_t1)
+Implies(And(a_q3_t0, a_q0_t0, r_q3_t0 - r_q0_t0 > 2),
+        y_q3_t1 > y_q0_t1)
+Implies(And(a_q3_t1, a_q0_t1, c_q3_t1 - c_q0_t1 > 2),
+        x_q3_t2 > x_q0_t2)
+Implies(And(a_q3_t1, a_q0_t1, r_q3_t1 - r_q0_t1 > 2),
+        y_q3_t2 > y_q0_t2)
+Implies(And(a_q3_t2, a_q0_t2, c_q3_t2 - c_q0_t2 > 2),
+        x_q3_t3 > x_q0_t3)
+Implies(And(a_q3_t2, a_q0_t2, r_q3_t2 - r_q0_t2 > 2),
+        y_q3_t3 > y_q0_t3)
+Implies(And(a_q3_t0, a_q1_t0, c_q3_t0 - c_q1_t0 > 2),
+        x_q3_t1 > x_q1_t1)
+Implies(And(a_q3_t0, a_q1_t0, r_q3_t0 - r_q1_t0 > 2),
+        y_q3_t1 > y_q1_t1)
+Implies(And(a_q3_t1, a_q1_t1, c_q3_t1 - c_q1_t1 > 2),
+        x_q3_t2 > x_q1_t2)
+Implies(And(a_q3_t1, a_q1_t1, r_q3_t1 - r_q1_t1 > 2),
+        y_q3_t2 > y_q1_t2)
+Implies(And(a_q3_t2, a_q1_t2, c_q3_t2 - c_q1_t2 > 2),
+        x_q3_t3 > x_q1_t3)
+Implies(And(a_q3_t2, a_q1_t2, r_q3_t2 - r_q1_t2 > 2),
+        y_q3_t3 > y_q1_t3)
+Implies(And(a_q3_t0, a_q2_t0, c_q3_t0 - c_q2_t0 > 2),
+        x_q3_t1 > x_q2_t1)
+Implies(And(a_q3_t0, a_q2_t0, r_q3_t0 - r_q2_t0 > 2),
+        y_q3_t1 > y_q2_t1)
+Implies(And(a_q3_t1, a_q2_t1, c_q3_t1 - c_q2_t1 > 2),
+        x_q3_t2 > x_q2_t2)
+Implies(And(a_q3_t1, a_q2_t1, r_q3_t1 - r_q2_t1 > 2),
+        y_q3_t2 > y_q2_t2)
+Implies(And(a_q3_t2, a_q2_t2, c_q3_t2 - c_q2_t2 > 2),
+        x_q3_t3 > x_q2_t3)
+Implies(And(a_q3_t2, a_q2_t2, r_q3_t2 - r_q2_t2 > 2),
+        y_q3_t3 > y_q2_t3)
+Implies(And(a_q0_t0, a_q1_t0, c_q0_t0 - c_q1_t0 > 2),
+        x_q0_t0 > x_q1_t0)
+Implies(And(a_q0_t0, a_q1_t0, r_q0_t0 - r_q1_t0 > 2),
+        y_q0_t0 > y_q1_t0)
+Implies(And(a_q0_t0, a_q2_t0, c_q0_t0 - c_q2_t0 > 2),
+        x_q0_t0 > x_q2_t0)
+Implies(And(a_q0_t0, a_q2_t0, r_q0_t0 - r_q2_t0 > 2),
+        y_q0_t0 > y_q2_t0)
+Implies(And(a_q0_t0, a_q3_t0, c_q0_t0 - c_q3_t0 > 2),
+        x_q0_t0 > x_q3_t0)
+Implies(And(a_q0_t0, a_q3_t0, r_q0_t0 - r_q3_t0 > 2),
+        y_q0_t0 > y_q3_t0)
+Implies(And(a_q1_t0, a_q0_t0, c_q1_t0 - c_q0_t0 > 2),
+        x_q1_t0 > x_q0_t0)
+Implies(And(a_q1_t0, a_q0_t0, r_q1_t0 - r_q0_t0 > 2),
+        y_q1_t0 > y_q0_t0)
+Implies(And(a_q1_t0, a_q2_t0, c_q1_t0 - c_q2_t0 > 2),
+        x_q1_t0 > x_q2_t0)
+Implies(And(a_q1_t0, a_q2_t0, r_q1_t0 - r_q2_t0 > 2),
+        y_q1_t0 > y_q2_t0)
+Implies(And(a_q1_t0, a_q3_t0, c_q1_t0 - c_q3_t0 > 2),
+        x_q1_t0 > x_q3_t0)
+Implies(And(a_q1_t0, a_q3_t0, r_q1_t0 - r_q3_t0 > 2),
+        y_q1_t0 > y_q3_t0)
+Implies(And(a_q2_t0, a_q0_t0, c_q2_t0 - c_q0_t0 > 2),
+        x_q2_t0 > x_q0_t0)
+Implies(And(a_q2_t0, a_q0_t0, r_q2_t0 - r_q0_t0 > 2),
+        y_q2_t0 > y_q0_t0)
+Implies(And(a_q2_t0, a_q1_t0, c_q2_t0 - c_q1_t0 > 2),
+        x_q2_t0 > x_q1_t0)
+Implies(And(a_q2_t0, a_q1_t0, r_q2_t0 - r_q1_t0 > 2),
+        y_q2_t0 > y_q1_t0)
+Implies(And(a_q2_t0, a_q3_t0, c_q2_t0 - c_q3_t0 > 2),
+        x_q2_t0 > x_q3_t0)
+Implies(And(a_q2_t0, a_q3_t0, r_q2_t0 - r_q3_t0 > 2),
+        y_q2_t0 > y_q3_t0)
+Implies(And(a_q3_t0, a_q0_t0, c_q3_t0 - c_q0_t0 > 2),
+        x_q3_t0 > x_q0_t0)
+Implies(And(a_q3_t0, a_q0_t0, r_q3_t0 - r_q0_t0 > 2),
+        y_q3_t0 > y_q0_t0)
+Implies(And(a_q3_t0, a_q1_t0, c_q3_t0 - c_q1_t0 > 2),
+        x_q3_t0 > x_q1_t0)
+Implies(And(a_q3_t0, a_q1_t0, r_q3_t0 - r_q1_t0 > 2),
+        y_q3_t0 > y_q1_t0)
+Implies(And(a_q3_t0, a_q2_t0, c_q3_t0 - c_q2_t0 > 2),
+        x_q3_t0 > x_q2_t0)
+Implies(And(a_q3_t0, a_q2_t0, r_q3_t0 - r_q2_t0 > 2),
+        y_q3_t0 > y_q2_t0)
+Implies(And(a_q0_t0, a_q1_t0),
+        Or(c_q0_t0 != c_q1_t0, r_q0_t0 != r_q1_t0))
+Implies(And(Not(a_q0_t0), Not(a_q1_t0)),
+        Or(x_q0_t0 != x_q1_t0, y_q0_t0 != y_q1_t0))
+Implies(And(a_q0_t1, a_q1_t1),
+        Or(c_q0_t1 != c_q1_t1, r_q0_t1 != r_q1_t1))
+Implies(And(Not(a_q0_t1), Not(a_q1_t1)),
+        Or(x_q0_t1 != x_q1_t1, y_q0_t1 != y_q1_t1))
+Implies(And(a_q0_t2, a_q1_t2),
+        Or(c_q0_t2 != c_q1_t2, r_q0_t2 != r_q1_t2))
+Implies(And(Not(a_q0_t2), Not(a_q1_t2)),
+        Or(x_q0_t2 != x_q1_t2, y_q0_t2 != y_q1_t2))
+Implies(And(a_q0_t3, a_q1_t3),
+        Or(c_q0_t3 != c_q1_t3, r_q0_t3 != r_q1_t3))
+Implies(And(Not(a_q0_t3), Not(a_q1_t3)),
+        Or(x_q0_t3 != x_q1_t3, y_q0_t3 != y_q1_t3))
+Implies(And(a_q0_t0, a_q2_t0),
+        Or(c_q0_t0 != c_q2_t0, r_q0_t0 != r_q2_t0))
+Implies(And(Not(a_q0_t0), Not(a_q2_t0)),
+        Or(x_q0_t0 != x_q2_t0, y_q0_t0 != y_q2_t0))
+Implies(And(a_q0_t1, a_q2_t1),
+        Or(c_q0_t1 != c_q2_t1, r_q0_t1 != r_q2_t1))
+Implies(And(Not(a_q0_t1), Not(a_q2_t1)),
+        Or(x_q0_t1 != x_q2_t1, y_q0_t1 != y_q2_t1))
+Implies(And(a_q0_t2, a_q2_t2),
+        Or(c_q0_t2 != c_q2_t2, r_q0_t2 != r_q2_t2))
+Implies(And(Not(a_q0_t2), Not(a_q2_t2)),
+        Or(x_q0_t2 != x_q2_t2, y_q0_t2 != y_q2_t2))
+Implies(And(a_q0_t3, a_q2_t3),
+        Or(c_q0_t3 != c_q2_t3, r_q0_t3 != r_q2_t3))
+Implies(And(Not(a_q0_t3), Not(a_q2_t3)),
+        Or(x_q0_t3 != x_q2_t3, y_q0_t3 != y_q2_t3))
+Implies(And(a_q0_t0, a_q3_t0),
+        Or(c_q0_t0 != c_q3_t0, r_q0_t0 != r_q3_t0))
+Implies(And(Not(a_q0_t0), Not(a_q3_t0)),
+        Or(x_q0_t0 != x_q3_t0, y_q0_t0 != y_q3_t0))
+Implies(And(a_q0_t1, a_q3_t1),
+        Or(c_q0_t1 != c_q3_t1, r_q0_t1 != r_q3_t1))
+Implies(And(Not(a_q0_t1), Not(a_q3_t1)),
+        Or(x_q0_t1 != x_q3_t1, y_q0_t1 != y_q3_t1))
+Implies(And(a_q0_t2, a_q3_t2),
+        Or(c_q0_t2 != c_q3_t2, r_q0_t2 != r_q3_t2))
+Implies(And(Not(a_q0_t2), Not(a_q3_t2)),
+        Or(x_q0_t2 != x_q3_t2, y_q0_t2 != y_q3_t2))
+Implies(And(a_q0_t3, a_q3_t3),
+        Or(c_q0_t3 != c_q3_t3, r_q0_t3 != r_q3_t3))
+Implies(And(Not(a_q0_t3), Not(a_q3_t3)),
+        Or(x_q0_t3 != x_q3_t3, y_q0_t3 != y_q3_t3))
+Implies(And(a_q1_t0, a_q2_t0),
+        Or(c_q1_t0 != c_q2_t0, r_q1_t0 != r_q2_t0))
+Implies(And(Not(a_q1_t0), Not(a_q2_t0)),
+        Or(x_q1_t0 != x_q2_t0, y_q1_t0 != y_q2_t0))
+Implies(And(a_q1_t1, a_q2_t1),
+        Or(c_q1_t1 != c_q2_t1, r_q1_t1 != r_q2_t1))
+Implies(And(Not(a_q1_t1), Not(a_q2_t1)),
+        Or(x_q1_t1 != x_q2_t1, y_q1_t1 != y_q2_t1))
+Implies(And(a_q1_t2, a_q2_t2),
+        Or(c_q1_t2 != c_q2_t2, r_q1_t2 != r_q2_t2))
+Implies(And(Not(a_q1_t2), Not(a_q2_t2)),
+        Or(x_q1_t2 != x_q2_t2, y_q1_t2 != y_q2_t2))
+Implies(And(a_q1_t3, a_q2_t3),
+        Or(c_q1_t3 != c_q2_t3, r_q1_t3 != r_q2_t3))
+Implies(And(Not(a_q1_t3), Not(a_q2_t3)),
+        Or(x_q1_t3 != x_q2_t3, y_q1_t3 != y_q2_t3))
+Implies(And(a_q1_t0, a_q3_t0),
+        Or(c_q1_t0 != c_q3_t0, r_q1_t0 != r_q3_t0))
+Implies(And(Not(a_q1_t0), Not(a_q3_t0)),
+        Or(x_q1_t0 != x_q3_t0, y_q1_t0 != y_q3_t0))
+Implies(And(a_q1_t1, a_q3_t1),
+        Or(c_q1_t1 != c_q3_t1, r_q1_t1 != r_q3_t1))
+Implies(And(Not(a_q1_t1), Not(a_q3_t1)),
+        Or(x_q1_t1 != x_q3_t1, y_q1_t1 != y_q3_t1))
+Implies(And(a_q1_t2, a_q3_t2),
+        Or(c_q1_t2 != c_q3_t2, r_q1_t2 != r_q3_t2))
+Implies(And(Not(a_q1_t2), Not(a_q3_t2)),
+        Or(x_q1_t2 != x_q3_t2, y_q1_t2 != y_q3_t2))
+Implies(And(a_q1_t3, a_q3_t3),
+        Or(c_q1_t3 != c_q3_t3, r_q1_t3 != r_q3_t3))
+Implies(And(Not(a_q1_t3), Not(a_q3_t3)),
+        Or(x_q1_t3 != x_q3_t3, y_q1_t3 != y_q3_t3))
+Implies(And(a_q2_t0, a_q3_t0),
+        Or(c_q2_t0 != c_q3_t0, r_q2_t0 != r_q3_t0))
+Implies(And(Not(a_q2_t0), Not(a_q3_t0)),
+        Or(x_q2_t0 != x_q3_t0, y_q2_t0 != y_q3_t0))
+Implies(And(a_q2_t1, a_q3_t1),
+        Or(c_q2_t1 != c_q3_t1, r_q2_t1 != r_q3_t1))
+Implies(And(Not(a_q2_t1), Not(a_q3_t1)),
+        Or(x_q2_t1 != x_q3_t1, y_q2_t1 != y_q3_t1))
+Implies(And(a_q2_t2, a_q3_t2),
+        Or(c_q2_t2 != c_q3_t2, r_q2_t2 != r_q3_t2))
+Implies(And(Not(a_q2_t2), Not(a_q3_t2)),
+        Or(x_q2_t2 != x_q3_t2, y_q2_t2 != y_q3_t2))
+Implies(And(a_q2_t3, a_q3_t3),
+        Or(c_q2_t3 != c_q3_t3, r_q2_t3 != r_q3_t3))
+Implies(And(Not(a_q2_t3), Not(a_q3_t3)),
+        Or(x_q2_t3 != x_q3_t3, y_q2_t3 != y_q3_t3))
+Implies(And(x_q0_t1 == x_q1_t1, y_q0_t1 == y_q1_t1),
+        And(a_q0_t1 == a_q0_t0, a_q1_t1 == a_q1_t0))
+Implies(And(x_q0_t2 == x_q1_t2, y_q0_t2 == y_q1_t2),
+        And(a_q0_t2 == a_q0_t1, a_q1_t2 == a_q1_t1))
+Implies(And(x_q0_t3 == x_q1_t3, y_q0_t3 == y_q1_t3),
+        And(a_q0_t3 == a_q0_t2, a_q1_t3 == a_q1_t2))
+Implies(And(x_q0_t1 == x_q2_t1, y_q0_t1 == y_q2_t1),
+        And(a_q0_t1 == a_q0_t0, a_q2_t1 == a_q2_t0))
+Implies(And(x_q0_t2 == x_q2_t2, y_q0_t2 == y_q2_t2),
+        And(a_q0_t2 == a_q0_t1, a_q2_t2 == a_q2_t1))
+Implies(And(x_q0_t3 == x_q2_t3, y_q0_t3 == y_q2_t3),
+        And(a_q0_t3 == a_q0_t2, a_q2_t3 == a_q2_t2))
+Implies(And(x_q0_t1 == x_q3_t1, y_q0_t1 == y_q3_t1),
+        And(a_q0_t1 == a_q0_t0, a_q3_t1 == a_q3_t0))
+Implies(And(x_q0_t2 == x_q3_t2, y_q0_t2 == y_q3_t2),
+        And(a_q0_t2 == a_q0_t1, a_q3_t2 == a_q3_t1))
+Implies(And(x_q0_t3 == x_q3_t3, y_q0_t3 == y_q3_t3),
+        And(a_q0_t3 == a_q0_t2, a_q3_t3 == a_q3_t2))
+Implies(And(x_q1_t1 == x_q2_t1, y_q1_t1 == y_q2_t1),
+        And(a_q1_t1 == a_q1_t0, a_q2_t1 == a_q2_t0))
+Implies(And(x_q1_t2 == x_q2_t2, y_q1_t2 == y_q2_t2),
+        And(a_q1_t2 == a_q1_t1, a_q2_t2 == a_q2_t1))
+Implies(And(x_q1_t3 == x_q2_t3, y_q1_t3 == y_q2_t3),
+        And(a_q1_t3 == a_q1_t2, a_q2_t3 == a_q2_t2))
+Implies(And(x_q1_t1 == x_q3_t1, y_q1_t1 == y_q3_t1),
+        And(a_q1_t1 == a_q1_t0, a_q3_t1 == a_q3_t0))
+Implies(And(x_q1_t2 == x_q3_t2, y_q1_t2 == y_q3_t2),
+        And(a_q1_t2 == a_q1_t1, a_q3_t2 == a_q3_t1))
+Implies(And(x_q1_t3 == x_q3_t3, y_q1_t3 == y_q3_t3),
+        And(a_q1_t3 == a_q1_t2, a_q3_t3 == a_q3_t2))
+Implies(And(x_q2_t1 == x_q3_t1, y_q2_t1 == y_q3_t1),
+        And(a_q2_t1 == a_q2_t0, a_q3_t1 == a_q3_t0))
+Implies(And(x_q2_t2 == x_q3_t2, y_q2_t2 == y_q3_t2),
+        And(a_q2_t2 == a_q2_t1, a_q3_t2 == a_q3_t1))
+Implies(And(x_q2_t3 == x_q3_t3, y_q2_t3 == y_q3_t3),
+        And(a_q2_t3 == a_q2_t2, a_q3_t3 == a_q3_t2))
+t_g0 < 4
+t_g0 >= 0
+t_g1 < 4
+t_g1 >= 0
+t_g2 < 4
+t_g2 >= 0
+t_g3 < 4
+t_g3 >= 0
+t_g0 < t_g1
+t_g0 < t_g2
+t_g1 < t_g2
+t_g1 < t_g3
+Implies(t_g0 == 1, x_q0_t1 == x_q1_t1)
+Implies(t_g0 == 1, y_q0_t1 == y_q1_t1)
+Implies(t_g0 == 2, x_q0_t2 == x_q1_t2)
+Implies(t_g0 == 2, y_q0_t2 == y_q1_t2)
+Implies(t_g0 == 3, x_q0_t3 == x_q1_t3)
+Implies(t_g0 == 3, y_q0_t3 == y_q1_t3)
+Implies(t_g1 == 1, x_q1_t1 == x_q2_t1)
+Implies(t_g1 == 1, y_q1_t1 == y_q2_t1)
+Implies(t_g1 == 2, x_q1_t2 == x_q2_t2)
+Implies(t_g1 == 2, y_q1_t2 == y_q2_t2)
+Implies(t_g1 == 3, x_q1_t3 == x_q2_t3)
+Implies(t_g1 == 3, y_q1_t3 == y_q2_t3)
+Implies(t_g2 == 1, x_q0_t1 == x_q1_t1)
+Implies(t_g2 == 1, y_q0_t1 == y_q1_t1)
+Implies(t_g2 == 2, x_q0_t2 == x_q1_t2)
+Implies(t_g2 == 2, y_q0_t2 == y_q1_t2)
+Implies(t_g2 == 3, x_q0_t3 == x_q1_t3)
+Implies(t_g2 == 3, y_q0_t3 == y_q1_t3)
+Implies(t_g3 == 1, x_q2_t1 == x_q3_t1)
+Implies(t_g3 == 1, y_q2_t1 == y_q3_t1)
+Implies(t_g3 == 2, x_q2_t2 == x_q3_t2)
+Implies(t_g3 == 2, y_q2_t2 == y_q3_t2)
+Implies(t_g3 == 3, x_q2_t3 == x_q3_t3)
+Implies(t_g3 == 3, y_q2_t3 == y_q3_t3)
+Implies(And(x_q0_t1 == x_q1_t1, y_q0_t1 == y_q1_t1),
+        Or(t_g0 == 1, t_g2 == 1))
+Implies(And(x_q0_t2 == x_q1_t2, y_q0_t2 == y_q1_t2),
+        Or(t_g0 == 2, t_g2 == 2))
+Implies(And(x_q0_t3 == x_q1_t3, y_q0_t3 == y_q1_t3),
+        Or(t_g0 == 3, t_g2 == 3))
+Or(x_q0_t1 != x_q2_t1, y_q0_t1 != y_q2_t1)
+Or(x_q0_t2 != x_q2_t2, y_q0_t2 != y_q2_t2)
+Or(x_q0_t3 != x_q2_t3, y_q0_t3 != y_q2_t3)
+Or(x_q0_t1 != x_q3_t1, y_q0_t1 != y_q3_t1)
+Or(x_q0_t2 != x_q3_t2, y_q0_t2 != y_q3_t2)
+Or(x_q0_t3 != x_q3_t3, y_q0_t3 != y_q3_t3)
+Implies(And(x_q1_t1 == x_q2_t1, y_q1_t1 == y_q2_t1),
+        Or(t_g1 == 1))
+Implies(And(x_q1_t2 == x_q2_t2, y_q1_t2 == y_q2_t2),
+        Or(t_g1 == 2))
+Implies(And(x_q1_t3 == x_q2_t3, y_q1_t3 == y_q2_t3),
+        Or(t_g1 == 3))
+Or(x_q1_t1 != x_q3_t1, y_q1_t1 != y_q3_t1)
+Or(x_q1_t2 != x_q3_t2, y_q1_t2 != y_q3_t2)
+Or(x_q1_t3 != x_q3_t3, y_q1_t3 != y_q3_t3)
+Implies(And(x_q2_t1 == x_q3_t1, y_q2_t1 == y_q3_t1),
+        Or(t_g3 == 1))
+Implies(And(x_q2_t2 == x_q3_t2, y_q2_t2 == y_q3_t2),
+        Or(t_g3 == 2))
+Implies(And(x_q2_t3 == x_q3_t3, y_q2_t3 == y_q3_t3),
+        Or(t_g3 == 3))
+Or(Not(anx_13))
+Or(t_g0 == 1, anx_14)
+Or(t_g1 == 1, anx_14)
+Or(t_g0 == 1, t_g1 == 1, anx_15)
+Or(t_g2 == 1, anx_16)
+Or(t_g3 == 1, anx_16)
+Or(t_g2 == 1, t_g3 == 1, anx_17)
+Or(Not(anx_14), anx_18)
+Or(Not(anx_16), anx_18)
+Or(Not(anx_14), Not(anx_16), anx_19)
+Or(Not(anx_15), anx_20)
+Or(Not(anx_17), anx_20)
+Or(Not(anx_15), Not(anx_17), anx_21)
+Or(Not(anx_19), anx_22)
+Or(Not(anx_20), anx_22)
+Or(Not(anx_19), Not(anx_20), anx_23)
+Or(t_g0 == 2, anx_24)
+Or(t_g1 == 2, anx_24)
+Or(t_g0 == 2, t_g1 == 2, anx_25)
+Or(t_g2 == 2, anx_26)
+Or(t_g3 == 2, anx_26)
+Or(t_g2 == 2, t_g3 == 2, anx_27)
+Or(Not(anx_24), anx_28)
+Or(Not(anx_26), anx_28)
+Or(Not(anx_24), Not(anx_26), anx_29)
+Or(Not(anx_25), anx_30)
+Or(Not(anx_27), anx_30)
+Or(Not(anx_25), Not(anx_27), anx_31)
+Or(Not(anx_29), anx_32)
+Or(Not(anx_30), anx_32)
+Or(Not(anx_29), Not(anx_30), anx_33)
+Or(Not(anx_18), anx_34)
+Or(Not(anx_28), anx_34)
+Or(Not(anx_18), Not(anx_28), anx_35)
+Or(Not(anx_23), anx_36)
+Or(Not(anx_33), anx_36)
+Or(Not(anx_23), Not(anx_33), anx_37)
+Or(Not(anx_35), anx_38)
+Or(Not(anx_36), anx_38)
+Or(Not(anx_35), Not(anx_36), anx_39)
+Or(Not(anx_22), anx_40)
+Or(Not(anx_32), anx_40)
+Or(Not(anx_22), Not(anx_32), anx_41)
+Or(Not(anx_21), anx_42)
+Or(Not(anx_31), anx_42)
+Or(Not(anx_21), Not(anx_31), anx_43)
+Or(Not(anx_41), anx_44)
+Or(Not(anx_42), anx_44)
+Or(Not(anx_41), Not(anx_42), anx_45)
+Or(Not(anx_38), anx_46)
+Or(Not(anx_40), anx_46)
+Or(Not(anx_38), Not(anx_40), anx_47)
+Or(Not(anx_39), anx_48)
+Or(Not(anx_44), anx_48)
+Or(Not(anx_39), Not(anx_44), anx_49)
+Or(Not(anx_37), anx_50)
+Or(Not(anx_45), anx_50)
+Or(Not(anx_37), Not(anx_45), anx_51)
+Or(t_g0 == 3, anx_52)
+Or(t_g1 == 3, anx_52)
+Or(t_g0 == 3, t_g1 == 3, anx_53)
+Or(t_g2 == 3, anx_54)
+Or(t_g3 == 3, anx_54)
+Or(t_g2 == 3, t_g3 == 3, anx_55)
+Or(Not(anx_52), anx_56)
+Or(Not(anx_54), anx_56)
+Or(Not(anx_52), Not(anx_54), anx_57)
+Or(Not(anx_53), anx_58)
+Or(Not(anx_55), anx_58)
+Or(Not(anx_53), Not(anx_55), anx_59)
+Or(Not(anx_57), anx_60)
+Or(Not(anx_58), anx_60)
+Or(Not(anx_57), Not(anx_58), anx_61)
+Or(Not(anx_13), anx_62)
+Or(Not(anx_13), anx_62)
+Or(Not(anx_13), Not(anx_13), anx_63)
+Or(Not(anx_13), anx_64)
+Or(Not(anx_13), anx_64)
+Or(Not(anx_13), Not(anx_13), anx_65)
+Or(Not(anx_62), anx_66)
+Or(Not(anx_64), anx_66)
+Or(Not(anx_62), Not(anx_64), anx_67)
+Or(Not(anx_63), anx_68)
+Or(Not(anx_65), anx_68)
+Or(Not(anx_63), Not(anx_65), anx_69)
+Or(Not(anx_67), anx_70)
+Or(Not(anx_68), anx_70)
+Or(Not(anx_67), Not(anx_68), anx_71)
+Or(Not(anx_56), anx_72)
+Or(Not(anx_66), anx_72)
+Or(Not(anx_56), Not(anx_66), anx_73)
+Or(Not(anx_61), anx_74)
+Or(Not(anx_71), anx_74)
+Or(Not(anx_61), Not(anx_71), anx_75)
+Or(Not(anx_73), anx_76)
+Or(Not(anx_74), anx_76)
+Or(Not(anx_73), Not(anx_74), anx_77)
+Or(Not(anx_60), anx_78)
+Or(Not(anx_70), anx_78)
+Or(Not(anx_60), Not(anx_70), anx_79)
+Or(Not(anx_59), anx_80)
+Or(Not(anx_69), anx_80)
+Or(Not(anx_59), Not(anx_69), anx_81)
+Or(Not(anx_79), anx_82)
+Or(Not(anx_80), anx_82)
+Or(Not(anx_79), Not(anx_80), anx_83)
+Or(Not(anx_76), anx_84)
+Or(Not(anx_78), anx_84)
+Or(Not(anx_76), Not(anx_78), anx_85)
+Or(Not(anx_77), anx_86)
+Or(Not(anx_82), anx_86)
+Or(Not(anx_77), Not(anx_82), anx_87)
+Or(Not(anx_75), anx_88)
+Or(Not(anx_83), anx_88)
+Or(Not(anx_75), Not(anx_83), anx_89)
+Or(Not(anx_34), anx_90)
+Or(Not(anx_72), anx_90)
+Or(Not(anx_34), Not(anx_72), anx_91)
+Or(Not(anx_49), anx_92)
+Or(Not(anx_87), anx_92)
+Or(Not(anx_49), Not(anx_87), anx_93)
+Or(Not(anx_91), anx_94)
+Or(Not(anx_92), anx_94)
+Or(Not(anx_91), Not(anx_92), anx_95)
+Or(Not(anx_47), anx_96)
+Or(Not(anx_85), anx_96)
+Or(Not(anx_47), Not(anx_85), anx_97)
+Or(Not(anx_51), anx_98)
+Or(Not(anx_89), anx_98)
+Or(Not(anx_51), Not(anx_89), anx_99)
+Or(Not(anx_97), anx_100)
+Or(Not(anx_98), anx_100)
+Or(Not(anx_97), Not(anx_98), anx_101)
+Or(Not(anx_94), anx_102)
+Or(Not(anx_96), anx_102)
+Or(Not(anx_94), Not(anx_96), anx_103)
+Or(Not(anx_95), anx_104)
+Or(Not(anx_100), anx_104)
+Or(Not(anx_95), Not(anx_100), anx_105)
+Or(Not(anx_93), anx_106)
+Or(Not(anx_101), anx_106)
+Or(Not(anx_93), Not(anx_101), anx_107)
+Or(Not(anx_46), anx_108)
+Or(Not(anx_84), anx_108)
+Or(Not(anx_46), Not(anx_84), anx_109)
+Or(Not(anx_50), anx_110)
+Or(Not(anx_88), anx_110)
+Or(Not(anx_50), Not(anx_88), anx_111)
+Or(Not(anx_109), anx_112)
+Or(Not(anx_110), anx_112)
+Or(Not(anx_109), Not(anx_110), anx_113)
+Or(Not(anx_48), anx_114)
+Or(Not(anx_86), anx_114)
+Or(Not(anx_48), Not(anx_86), anx_115)
+Or(Not(anx_43), anx_116)
+Or(Not(anx_81), anx_116)
+Or(Not(anx_43), Not(anx_81), anx_117)
+Or(Not(anx_115), anx_118)
+Or(Not(anx_116), anx_118)
+Or(Not(anx_115), Not(anx_116), anx_119)
+Or(Not(anx_112), anx_120)
+Or(Not(anx_114), anx_120)
+Or(Not(anx_112), Not(anx_114), anx_121)
+Or(Not(anx_113), anx_122)
+Or(Not(anx_118), anx_122)
+Or(Not(anx_113), Not(anx_118), anx_123)
+Or(Not(anx_111), anx_124)
+Or(Not(anx_119), anx_124)
+Or(Not(anx_111), Not(anx_119), anx_125)
+Or(Not(anx_102), anx_126)
+Or(Not(anx_108), anx_126)
+Or(Not(anx_102), Not(anx_108), anx_127)
+Or(Not(anx_103), anx_128)
+Or(Not(anx_120), anx_128)
+Or(Not(anx_103), Not(anx_120), anx_129)
+Or(Not(anx_104), anx_130)
+Or(Not(anx_121), anx_130)
+Or(Not(anx_104), Not(anx_121), anx_131)
+Or(Not(anx_105), anx_132)
+Or(Not(anx_122), anx_132)
+Or(Not(anx_105), Not(anx_122), anx_133)
+Or(Not(anx_106), anx_134)
+Or(Not(anx_123), anx_134)
+Or(Not(anx_106), Not(anx_123), anx_135)
+Or(Not(anx_107), anx_136)
+Or(Not(anx_124), anx_136)
+Or(Not(anx_107), Not(anx_124), anx_137)
+Or(Not(anx_99), anx_138)
+Or(Not(anx_125), anx_138)
+Or(Not(anx_99), Not(anx_125), anx_139)
+Or(Not(anx_133))
