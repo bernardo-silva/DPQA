@@ -12,7 +12,20 @@ from qiskit import QuantumCircuit
 from qiskit.converters import circuit_to_dag
 from qiskit.dagcircuit import DAGCircuit
 from qiskit.dagcircuit.dagnode import DAGOpNode
-from z3 import *
+from z3 import (
+    Solver,
+    Optimize,
+    Bool,
+    Int,
+    Or,
+    Implies,
+    Not,
+    And,
+    sat,
+    is_true,
+    Sum,
+    Abs
+)
 
 PYSAT_ENCODING = 2  # default choice: sequential counter
 
@@ -59,7 +72,7 @@ class Circuit:
         )
 
 
-def node_qubits(circ: QuantumCircuit, node: DAGOpNode) -> Tuple[int, int]:
+def node_qubits(circ: QuantumCircuit, node: DAGOpNode) -> tuple[int, ...]:
     """Get the qubits of a DAGOpNode."""
     return tuple(sorted(map(lambda q: circ.find_bit(q).index, node.qargs)))
 
@@ -93,6 +106,7 @@ class DPQASettings:
 
     name: str = ""
     directory: str = ""
+    minimize_distance: bool = False
     verbose: bool = False
     all_aod: bool = False
     no_transfer: bool = False
@@ -109,11 +123,12 @@ class DPQA_Simple:
         name: str,
         directory: str = "",
         bounds: Tuple[int, int, int, int] = (16, 16, 16, 16),
+        minimize_distance: bool = False,
         verbose: bool = False,
         all_aod: bool = False,
         no_transfer: bool = False,
     ):
-        self.dpqa: Solver = Solver()
+        self.solver: Solver = Solver()
         self.satisfiable: bool = False
 
         self.circuit: Circuit | None = None
@@ -124,6 +139,7 @@ class DPQA_Simple:
         self.settings = DPQASettings(
             name,
             directory,
+            minimize_distance,
             verbose,
             all_aod,
             no_transfer,
@@ -159,13 +175,13 @@ class DPQA_Simple:
         """All qubits on AODs"""
         if self.settings.all_aod:
             for q, s in product(range(self.circuit.num_gates), range(num_stage)):
-                (self.dpqa).add(a[q][s])
+                (self.solver).add(a[q][s])
 
     def constraint_no_transfer(self, num_stage: int, a: Sequence[Sequence[Any]]):
         """No transfer from AOD to SLM and vice versa"""
         if self.settings.no_transfer:
             for q, s in product(range(self.circuit.num_gates), range(num_stage)):
-                (self.dpqa).add(a[q][s] == a[q][0])
+                (self.solver).add(a[q][s] == a[q][0])
 
     def constraint_var_bounds(
         self,
@@ -179,16 +195,16 @@ class DPQA_Simple:
         for q in range(self.circuit.num_qubits):
             for s in range(1, num_stage):
                 # starting from s=1 since the values with s=0 are loaded
-                (self.dpqa).add(x[q][s] >= 0)
-                (self.dpqa).add(x[q][s] < self.architecture.n_x)
-                (self.dpqa).add(y[q][s] >= 0)
-                (self.dpqa).add(y[q][s] < self.architecture.n_y)
+                (self.solver).add(x[q][s] >= 0)
+                (self.solver).add(x[q][s] < self.architecture.n_x)
+                (self.solver).add(y[q][s] >= 0)
+                (self.solver).add(y[q][s] < self.architecture.n_y)
             for s in range(num_stage):
                 # starting from s=0 since the solver finds these values
-                (self.dpqa).add(c[q][s] >= 0)
-                (self.dpqa).add(c[q][s] < self.architecture.n_c)
-                (self.dpqa).add(r[q][s] >= 0)
-                (self.dpqa).add(r[q][s] < self.architecture.n_r)
+                (self.solver).add(c[q][s] >= 0)
+                (self.solver).add(c[q][s] < self.architecture.n_c)
+                (self.solver).add(r[q][s] >= 0)
+                (self.solver).add(r[q][s] < self.architecture.n_r)
 
     def constraint_fixed_slm(
         self,
@@ -200,8 +216,8 @@ class DPQA_Simple:
         """SLMs do not move"""
         for q in range(self.circuit.num_qubits):
             for s in range(num_stage - 1):
-                (self.dpqa).add(Implies(Not(a[q][s]), x[q][s] == x[q][s + 1]))
-                (self.dpqa).add(Implies(Not(a[q][s]), y[q][s] == y[q][s + 1]))
+                (self.solver).add(Implies(Not(a[q][s]), x[q][s] == x[q][s + 1]))
+                (self.solver).add(Implies(Not(a[q][s]), y[q][s] == y[q][s + 1]))
 
     def constraint_aod_move_together(
         self,
@@ -215,18 +231,18 @@ class DPQA_Simple:
         """AODs move together"""
         for q in range(self.circuit.num_qubits):
             for s in range(num_stage - 1):
-                (self.dpqa).add(Implies(a[q][s], c[q][s + 1] == c[q][s]))
-                (self.dpqa).add(Implies(a[q][s], r[q][s + 1] == r[q][s]))
+                (self.solver).add(Implies(a[q][s], c[q][s + 1] == c[q][s]))
+                (self.solver).add(Implies(a[q][s], r[q][s + 1] == r[q][s]))
         for q0 in range(self.circuit.num_qubits):
             for q1 in range(q0 + 1, self.circuit.num_qubits):
                 for s in range(num_stage - 1):
-                    (self.dpqa).add(
+                    (self.solver).add(
                         Implies(
                             And(a[q0][s], a[q1][s], c[q0][s] == c[q1][s]),
                             x[q0][s + 1] == x[q1][s + 1],
                         )
                     )
-                    (self.dpqa).add(
+                    (self.solver).add(
                         Implies(
                             And(a[q0][s], a[q1][s], r[q0][s] == r[q1][s]),
                             y[q0][s + 1] == y[q1][s + 1],
@@ -249,13 +265,13 @@ class DPQA_Simple:
                 if q0 == q1:
                     continue
 
-                (self.dpqa).add(
+                (self.solver).add(
                     Implies(
                         And(a[q0][s], a[q1][s], c[q0][s] < c[q1][s]),
                         x[q0][s + 1] <= x[q1][s + 1],
                     )
                 )
-                (self.dpqa).add(
+                (self.solver).add(
                     Implies(
                         And(a[q0][s], a[q1][s], r[q0][s] < r[q1][s]),
                         y[q0][s + 1] <= y[q1][s + 1],
@@ -278,13 +294,13 @@ class DPQA_Simple:
             for s in range(num_stage):
                 if q0 == q1:
                     continue
-                (self.dpqa).add(
+                (self.solver).add(
                     Implies(
                         And(a[q0][s], a[q1][s], x[q0][s] < x[q1][s]),
                         c[q0][s] < c[q1][s],
                     )
                 )
-                (self.dpqa).add(
+                (self.solver).add(
                     Implies(
                         And(a[q0][s], a[q1][s], y[q0][s] < y[q1][s]),
                         r[q0][s] < r[q1][s],
@@ -307,7 +323,7 @@ class DPQA_Simple:
             for s in range(num_stage - 1):
                 if q0 == q1:
                     continue
-                (self.dpqa).add(
+                (self.solver).add(
                     Implies(
                         And(
                             a[q0][s],
@@ -317,7 +333,7 @@ class DPQA_Simple:
                         x[q0][s + 1] > x[q1][s + 1],
                     )
                 )
-                (self.dpqa).add(
+                (self.solver).add(
                     Implies(
                         And(
                             a[q0][s],
@@ -330,9 +346,9 @@ class DPQA_Simple:
 
     def constraint_aod_crowding_init(
         self,
-        a: Sequence[Sequence[Any]],
-        x: Sequence[Sequence[Any]],
-        y: Sequence[Sequence[Any]],
+        a: Sequence[Sequence[Bool]],
+        x: Sequence[Sequence[Int]],
+        y: Sequence[Sequence[Int]],
         c: Sequence[Sequence[Any]],
         r: Sequence[Sequence[Any]],
     ):
@@ -342,7 +358,7 @@ class DPQA_Simple:
         ):
             if q0 == q1:
                 continue
-            (self.dpqa).add(
+            self.solver.add(
                 Implies(
                     And(
                         a[q0][0],
@@ -352,7 +368,7 @@ class DPQA_Simple:
                     x[q0][0] > x[q1][0],
                 )
             )
-            (self.dpqa).add(
+            self.solver.add(
                 Implies(
                     And(
                         a[q0][0],
@@ -366,7 +382,7 @@ class DPQA_Simple:
     def constraint_site_crowding(
         self,
         num_stage: int,
-        a: Sequence[Sequence[Any]],
+        a: Sequence[Sequence[Bool]],
         x: Sequence[Sequence[Any]],
         y: Sequence[Sequence[Any]],
         c: Sequence[Sequence[Any]],
@@ -379,14 +395,14 @@ class DPQA_Simple:
             for q1 in range(q0 + 1, self.circuit.num_qubits):
                 for s in range(num_stage):
                     # Two atoms cannot be in the same AOD site
-                    (self.dpqa).add(
+                    (self.solver).add(
                         Implies(
                             And(a[q0][s], a[q1][s]),
                             Or(c[q0][s] != c[q1][s], r[q0][s] != r[q1][s]),
                         )
                     )
                     # Two atoms cannot be in the same SLM site
-                    (self.dpqa).add(
+                    (self.solver).add(
                         Implies(
                             And(Not(a[q0][s]), Not(a[q1][s])),
                             Or(x[q0][s] != x[q1][s], y[q0][s] != y[q1][s]),
@@ -404,7 +420,7 @@ class DPQA_Simple:
         for q0 in range(self.circuit.num_qubits):
             for q1 in range(q0 + 1, self.circuit.num_qubits):
                 for s in range(1, num_stage):
-                    (self.dpqa).add(
+                    (self.solver).add(
                         Implies(
                             And(x[q0][s] == x[q1][s], y[q0][s] == y[q1][s]),
                             And(a[q0][s] == a[q0][s - 1], a[q1][s] == a[q1][s - 1]),
@@ -418,7 +434,7 @@ class DPQA_Simple:
             raise ValueError("Circuit is not set")
 
         # self.dpqa = Solver()
-        self.dpqa = Optimize()
+        self.solver = Optimize()
 
         # variables
         a = [
@@ -479,9 +495,9 @@ class DPQA_Simple:
         for q in range(self.circuit.num_qubits):
             # load location info
             if "x" in variables[q]:
-                (self.dpqa).add(x[q][0] == variables[q]["x"])
+                (self.solver).add(x[q][0] == variables[q]["x"])
             if "y" in variables[q]:
-                (self.dpqa).add(y[q][0] == variables[q]["y"])
+                (self.solver).add(y[q][0] == variables[q]["y"])
         # virtually putting everything down to acillary SLMs
         # let solver pick some qubits to AOD, so we don't set a_q,0
         # we also don't set c_q,0 and r_q,0, but enforce ordering when
@@ -491,18 +507,18 @@ class DPQA_Simple:
                 if variables[q0]["a"] == 1 and variables[q1]["a"] == 1:
                     if variables[q0]["x"] == variables[q1]["x"]:
                         if variables[q0]["c"] < variables[q1]["c"]:
-                            (self.dpqa).add(c[q0][0] < c[q1][0])
+                            (self.solver).add(c[q0][0] < c[q1][0])
                         if variables[q0]["c"] > variables[q1]["c"]:
-                            (self.dpqa).add(c[q0][0] > c[q1][0])
+                            (self.solver).add(c[q0][0] > c[q1][0])
                         if variables[q0]["c"] == variables[q1]["c"]:
-                            (self.dpqa).add(c[q0][0] == c[q1][0])
+                            (self.solver).add(c[q0][0] == c[q1][0])
                     if variables[q0]["y"] == variables[q1]["y"]:
                         if variables[q0]["r"] < variables[q1]["r"]:
-                            (self.dpqa).add(r[q0][0] < r[q1][0])
+                            (self.solver).add(r[q0][0] < r[q1][0])
                         if variables[q0]["r"] > variables[q1]["r"]:
-                            (self.dpqa).add(r[q0][0] > r[q1][0])
+                            (self.solver).add(r[q0][0] > r[q1][0])
                         if variables[q0]["r"] == variables[q1]["r"]:
-                            (self.dpqa).add(r[q0][0] == r[q1][0])
+                            (self.solver).add(r[q0][0] == r[q1][0])
 
     def constraint_dependency_collision(
         self,
@@ -512,10 +528,10 @@ class DPQA_Simple:
 
         for (t_g0, gate0), (t_g1, gate1) in combinations(zip(t, self.circuit.gates), 2):
             if gate0 in self.circuit.dag.predecessors(gate1):
-                self.dpqa.add(t_g0 < t_g1)
+                self.solver.add(t_g0 < t_g1)
 
             elif gate1 in self.circuit.dag.predecessors(gate0):
-                (self.dpqa).add(t_g1 < t_g0)
+                (self.solver).add(t_g1 < t_g0)
 
     def constraint_connectivity(
         self,
@@ -530,8 +546,8 @@ class DPQA_Simple:
             for s in range(1, num_stage):  # since stage 0 is 'trash'
                 # if len(self.gates[g]) == 2:
                 for q0, q1 in combinations(gate_qubits, 2):
-                    (self.dpqa).add(Implies(t_g == s, x[q0][s] == x[q1][s]))
-                    (self.dpqa).add(Implies(t_g == s, y[q0][s] == y[q1][s]))
+                    (self.solver).add(Implies(t_g == s, x[q0][s] == x[q1][s]))
+                    (self.solver).add(Implies(t_g == s, y[q0][s] == y[q1][s]))
 
     def constraint_interaction_exactness(
         self,
@@ -547,7 +563,7 @@ class DPQA_Simple:
             # If the qubits interact, when they are in the same site, they must be in the same gate
             if gates_where_interact:
                 for s in range(1, num_stage):
-                    (self.dpqa).add(
+                    (self.solver).add(
                         Implies(
                             And(x[q0][s] == x[q1][s], y[q0][s] == y[q1][s]),
                             Or(*[t[g] == s for g in gates_where_interact]) 
@@ -556,7 +572,7 @@ class DPQA_Simple:
             # If the qubits never interact, they must be in different sites
             else:
                 for s in range(1, num_stage):
-                    (self.dpqa).add(Or(x[q0][s] != x[q1][s], y[q0][s] != y[q1][s]))
+                    (self.solver).add(Or(x[q0][s] != x[q1][s], y[q0][s] != y[q1][s]))
 
 
                 # If the qubits never interact, they must be in different sites
@@ -590,8 +606,8 @@ class DPQA_Simple:
 
         self.constraint_aod_order_from_prev(x, y, c, r)
         for t_g in t:
-            (self.dpqa).add(t_g < num_stage)
-            (self.dpqa).add(t_g >= 0)
+            (self.solver).add(t_g < num_stage)
+            (self.solver).add(t_g >= 0)
 
         self.constraint_dependency_collision(t)
         self.constraint_connectivity(num_gate, num_stage, t, x, y)
@@ -637,7 +653,7 @@ class DPQA_Simple:
                         or_list.append(Not(ancillary[val]))
                     else:
                         or_list.append(ancillary[val])
-            (self.dpqa).add(Or(*or_list))
+            (self.solver).add(Or(*or_list))
 
     def constraint_gate_card(
         self,
@@ -719,7 +735,7 @@ class DPQA_Simple:
         y: Sequence[Sequence[Any]],
         t: Sequence[Any],
     ):
-        model = (self.dpqa).model()
+        model = (self.solver).model()
 
         for s in range(num_stage):
             layer = self.read_partial_solution(s, model, a, c, r, x, y)
@@ -771,7 +787,7 @@ class DPQA_Simple:
     ):
         xdist = Sum([Abs(x1 - x0) for xq in x for x0, x1 in zip(xq, xq[1:])])
         ydist = Sum([Abs(y1 - y0) for yq in y for y0, y1 in zip(yq, yq[1:])])
-        self.dpqa.minimize(xdist + ydist)
+        self.solver.minimize(xdist + ydist)
 
         # self.remove_gates(gates_done)
 
@@ -792,35 +808,35 @@ class DPQA_Simple:
         while len(self.gates) > self.settings.optimal_ratio * total_g_q:
             print(f"gate batch {t_curr}")
 
-            (self.dpqa).push()  # gate related constraints
+            (self.solver).push()  # gate related constraints
             t = self.constraint_gate_batch(step + 1, c, r, x, y)
 
             G = Graph()
             G.add_edges_from(self.gates)
             bound_gate = len(max_weight_matching(G))
 
-            (self.dpqa).push()  # gate bound
+            (self.solver).push()  # gate bound
             self.constraint_gate_card(bound_gate, step + 1, t)
 
-            solved_batch_gates = (self.dpqa).check() == sat
+            solved_batch_gates = (self.solver).check() == sat
 
             while not solved_batch_gates:
                 print(f"    no solution, bound_gate={bound_gate} too large")
-                (self.dpqa).pop()  # pop to reduce gate bound
+                (self.solver).pop()  # pop to reduce gate bound
                 bound_gate -= 1
                 if bound_gate <= 0:
                     raise ValueError("gate card should > 0")
 
-                (self.dpqa).push()  # new gate bound
+                (self.solver).push()  # new gate bound
                 self.constraint_gate_card(bound_gate, step + 1, t)
 
-                solved_batch_gates = (self.dpqa).check() == sat
+                solved_batch_gates = (self.solver).check() == sat
 
             print(f"    found solution with {bound_gate} gates in {step} step")
             self.process_partial_solution(step + 1, a, c, r, x, y, t)
-            (self.dpqa).pop()  # the gate bound constraints for solved batch
+            (self.solver).pop()  # the gate bound constraints for solved batch
             t_curr += 1
-            (self.dpqa).pop()  # the gate related constraints for solved batch
+            (self.solver).pop()  # the gate related constraints for solved batch
 
     def solve_optimal(self, step: int):
         """optimal solving with step steps"""
@@ -834,9 +850,10 @@ class DPQA_Simple:
         a, c, r, x, y = self._solver_init(step + 1)
         t = self.constraint_gate_batch(step + 1, c, r, x, y)
         self.constraint_gate_card(bound_gate, step + 1, t)
-        self.minimize_distance(x, y)
+        if self.settings.minimize_distance:
+            self.minimize_distance(x, y)
 
-        solved_batch_gates = (self.dpqa).check() == sat
+        solved_batch_gates = (self.solver).check() == sat
 
         while not solved_batch_gates:
             print(f"    no solution, step={step} too small")
@@ -850,8 +867,9 @@ class DPQA_Simple:
             #     print(self.gates)
             self.constraint_gate_card(bound_gate, step + 1, t)
 
-            self.minimize_distance(x, y)
-            solved_batch_gates = (self.dpqa).check() == sat
+            if self.settings.minimize_distance:
+                self.minimize_distance(x, y)
+            solved_batch_gates = (self.solver).check() == sat
 
 
         print(f"    found solution with {bound_gate} gates in {step} step")
