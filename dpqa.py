@@ -1,6 +1,5 @@
 from typing import Sequence, Tuple
-from .solve import DPQA
-from .dpqa_simple import DPQA_Simple
+from .dpqa_simple import DPQAOptimisedTransports
 
 def dpqa_solve(circuit: Sequence[Sequence[int]],
                architecture: Tuple[int, int, int, int] = [16, 16, 16, 16],
@@ -11,7 +10,7 @@ def dpqa_solve(circuit: Sequence[Sequence[int]],
                verbose: bool = False) -> dict:
     """ Run DPQA on a given circuit. """
 
-    dpqa = DPQA_Simple(name=filename, directory=directory, verbose=verbose)
+    dpqa = DPQAOptimisedTransports(name=filename, directory=directory, verbose=verbose)
 
 
     if all_aod:
